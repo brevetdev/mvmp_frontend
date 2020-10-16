@@ -85,6 +85,9 @@
 
 <script>
 export default {
+  mounted () {
+    console.log(process.env.API)
+  },
   name: 'HelloWorld',
   data () {
     return {
