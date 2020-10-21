@@ -2,7 +2,7 @@
 <div class="bckgr" v-bind:style="{ 'background-image': 'url('+imgFondo+'  )' }">
   <!--<div v-html="msg"></div>-->
   <div id="overlay">
-  <div v-for='data in dataTitulo'>
+  <div v-for='(data, index) in dataTitulo' :key="index">
      <p  v-bind:class="data.classTitulo"> {{data.titulo}}</p>
   </div>
   </div>
