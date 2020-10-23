@@ -1,20 +1,23 @@
 <template>
   <div id="app">
-     <router-view/>
-    
+     
+      <router-view/>
      
  
     <Slide width="350">
       <a href="index.html"><div class="logomenu_txt">MEMORIAS DEL PERIODISMO</div></a>
       <div class="itemMenu" v-for='(data, index) in dataMenu' :key="index">
-          <a :id="data.id" href="#">
-              <span>{{data.NombrePagina}}</span>
-            </a>
+         <!-- <a :id="data.id" href="#">
+              <span>{{data.NombrePagina}} xxx</span>
+            </a>  -->  
+            <router-link to="/DosColum">{{data.NombrePagina}}</router-link>   
+            
+     
       </div>
       
     </Slide>
      
-    
+  
   </div>
 </template>
 
@@ -30,12 +33,17 @@
         components: {
             Slide 
         },
+        computed:{
+             
+        },
          mounted () {        
-          this.traerMenu()
+          this.traerMenu();
+         
         },
         data () {
           return {     
-            dataMenu: [],      
+            dataMenu: [],  
+             DosColum:this.$route.params.id   
           }
         },
   methods: {
@@ -144,8 +152,7 @@
     }
     .bm-item-list > * {
       display: flex;
-      text-decoration: none;
-      padding: 0.7em;
+      text-decoration: none;      
     }
     .bm-item-list > * > span {
       margin-left: 10px;

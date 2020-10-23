@@ -1,16 +1,10 @@
 <template>
-<div class="bckgr" v-bind:style="{ 'background-image': 'url('+imgFondo+'  )' }">
-  <!--<div v-html="msg"></div>-->
+
+  
   <div id="overlay">
-  <div v-for='(data, index) in dataTitulo' :key="index">
-     <p  v-bind:class="data.classTitulo"> {{data.titulo}}</p>
-  </div>
-  </div>
-  <div class="logo">
-    <div class="logo__content">
-      <img v-bind:src="logo" />
-    </div>
-  </div>
+ <h2>xxxxx</h2>
+  
+  
 </div>
 </template>
 
@@ -19,23 +13,19 @@ import axios from "axios";
 export default {
   name: 'HomeView',
   mounted () {
-   // this.parseoHtml(),
+    
     this.traerInfo()
   },
   data () {
     return {
-     // msg: '**Probando Showdown**',
+    
       dataTitulo: [],
-      imgFondo: "",
-      logo: ""
+     
     }
+
   },
   methods: {
-   // parseoHtml(){
-     // var showdown  = require('showdown');
-    //var converter = new showdown.Converter();
-    //this.msg = converter.makeHtml(this.msg);
-    //},
+  
 
     traerInfo(){
         let urlInicio =process.env.API +"/inicio";
