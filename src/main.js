@@ -4,9 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-import Slider from '@jeremyhamm/vue-slider'
+import { Slide } from 'vue-burger-menu'
 
-Vue.use(Slider)
+Vue.use(Slide)
 
 Vue.config.productionTip = false
 
