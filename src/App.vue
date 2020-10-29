@@ -1,9 +1,7 @@
 <template>
-
     <div id="app">
-      
       <router-view/>
-      <Menu></Menu>
+      <Menu id="menu"></Menu>
     </div>
   </template>
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -25,9 +23,8 @@
 
     }
 </script>
-
 <style>
-    #app {
+    #menu {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;

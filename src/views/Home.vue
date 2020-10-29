@@ -9,6 +9,7 @@
   <div class="logo">
     <div class="logo__content">
       <img v-bind:src="logo" />
+      <p>prueba</p>
     </div>
   </div>
 </div>
@@ -40,6 +41,7 @@ export default {
     traerInfo(){
         let urlInicio =process.env.API +"/inicio";
         let homeVue = this;
+        let headers = {'Content-Type':'application/json'};
         axios.get(urlInicio).then(response => {     
           homeVue.dataTitulo = response.data.contenidoInicio;
           homeVue.imgFondo = process.env.API+response.data.imagenFondo.url;

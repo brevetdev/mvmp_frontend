@@ -1,40 +1,49 @@
 <template>
-
-  
-  <div id="overlay">
- <h2>xxxxx</h2>
-  
-  
-</div>
+  <div id="dosColOverlay">
+    <div v-for="(data, index) in dataPag" :key="index">
+      <div class="grid-container">
+        <div class="grid-item izq">
+        <h1>{{ data.titulo }}</h1> 
+        <div id="overlay">
+          {{ data.descripcion }}
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 export default {
-  name: 'HomeView',
-  mounted () {
-    
-    this.traerInfo()
+  name: 'dosColView',
+  mounted() {
+    this.nameRoute = this.$route.params.nombre;
+    if(window.location.href.split('/')[4] != this.nameRoute){
+      window.location.reload();
+    }else{
+    this.traerInfo(this.nameRoute);
+    console.log(this.dataPag);
+    }
   },
   data () {
     return {
-    
-      dataTitulo: [],
-     
+      dataPag: [],
+      nameRoute: ""
     }
 
   },
   methods: {
-  
-
-    traerInfo(){
-        let urlInicio =process.env.API +"/inicio";
-        let homeVue = this;
-        axios.get(urlInicio).then(response => {     
-          homeVue.dataTitulo = response.data.contenidoInicio;
-          homeVue.imgFondo = process.env.API+response.data.imagenFondo.url;
-          homeVue.logo = process.env.API+response.data.logo.url;
-          console.log(homeVue.logo);
+  traerInfo(nombreRuta){
+        let url2Col =process.env.API +"/paginas-2-colum";
+        let dosColVue = this;
+        let dataP = [];
+        axios.get(url2Col).then(response => {
+          for (let i = 0; i < response.data.Paginas.length; i++) {
+            if(response.data.Paginas[i].NombrePagina === nombreRuta){
+                dosColVue.dataPag = response.data.Paginas[i].contenidoPagina2Colum;
+          }else{continue;}
+          }
       });
     }
   }
@@ -42,101 +51,52 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
-@import '../sass/main';
-blockquote,
-body,
-dd,
-dl,
-figure,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-hr,
-ol,
-p,
-pre,
-ul {
-    margin: 0;
-    padding: 0;
-}
-.bckgr{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-size: cover;
-    background-repeat: no-repeat;
-    opacity: 1;
-    background-position: right;
-}
-#overlay {
-    color: #f8a9ae;
-    -webkit-background-clip: text;
-    background-clip: text;
-    position: absolute;
-    width: 100vw;
-    bottom: 0;
-    top: 4vh;
-    text-align: center;
-     @include breakpoint(phone) {
-      top: 20vh;
+<style lang="scss" scoped>
+@import "../sass/main";
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  background-color: #464646;
+  padding: 10px;
+  .grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+  h1{
+        font-family: 'Libre Franklin', sans-serif;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 3px;
+        font-size: 22px;
+        line-height: 1.6em;
+        color: #01b5f4;
     }
-    @include breakpoint(tablet) {
-      top: 12vh;
-    }
-    @include breakpoint(desktopxl) {
-      top: 20vh;
+     h3{
+        font-family: 'Libre Franklin', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 14px;
+        line-height: 1.6em;
+        color: #ffffff;
+        font-weight: 600;
+        margin: 20px 0;
     }
 }
-.mayusculas{
-    font-family: 'Libre Franklin', sans-serif;
-    text-transform: uppercase;
-    font-weight: 900;
-    letter-spacing: 1.5px;
-    font-size: 4.8em;
-    display: block;
-    line-height: 1em;
-    @include breakpoint(phone) {
-      font-size: 2.8em;
-    }
-    @include breakpoint(tablet) {
-      font-size: 3.8em;
-    }
-    @include breakpoint(desktopxl) {
-      font-size: 5.8em;
-    }
-}
-.minusculas{
-    font-family: 'Ibarra Real Nova';
-    color: #d1d1d1;
-    font-size: 2.3em;
-    @include breakpoint(phone) {
-      font-size: 1.5em;
-    }
-    @include breakpoint(tablet) {
-      font-size: 2.3em;
-    }
-    @include breakpoint(desktopxl) {
-      font-size: 4.3em;
-    } 
-}
-.logo{
-  position: absolute;
-    bottom: 50px;
-    width: 100%;
-    margin: 0 auto;
-  &__content{
-        display: block;
-        margin: 30px auto;
-        width: 200px;
-        height: auto;
+.izq{
+            font-family: 'Libre Franklin', sans-serif;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            font-size: 14px;
+            line-height: 1.6em;
+        }
+  .der {
+            margin-top: 30px;
+            font-size: large;
+        }
 
-  }
 }
 
 </style>
