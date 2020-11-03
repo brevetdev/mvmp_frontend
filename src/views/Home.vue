@@ -1,5 +1,5 @@
 <template>
-<div class="bckgr" v-bind:style="{ 'background-image': 'url('+imgFondo+'  )' }">
+<div class="bckgr" v-bind:style="{ 'background-image': 'url('+imgFondo+')' }">
   <!--<div v-html="msg"></div>-->
   <div id="overlay">
   <div v-for='(data, index) in dataTitulo' :key="index">
@@ -9,7 +9,7 @@
   <div class="logo">
     <div class="logo__content">
       <img v-bind:src="logo" />
-      <p>prueba</p>
+      <p>{{logo}}</p>
     </div>
   </div>
 </div>
@@ -28,7 +28,8 @@ export default {
      // msg: '**Probando Showdown**',
       dataTitulo: [],
       imgFondo: "",
-      logo: ""
+      logo: "",
+      apiUrl:process.env.API
     }
   },
   methods: {
@@ -39,13 +40,13 @@ export default {
     //},
 
     traerInfo(){
-        let urlInicio =process.env.API +"/inicio";
+        let urlInicio =this.apiUrl+"/inicio";
         let homeVue = this;
         let headers = {'Content-Type':'application/json'};
         axios.get(urlInicio).then(response => {     
           homeVue.dataTitulo = response.data.contenidoInicio;
-          homeVue.imgFondo = process.env.API+response.data.imagenFondo.url;
-          homeVue.logo = process.env.API+response.data.logo.url;
+          homeVue.imgFondo = this.apiUrl+response.data.imagenFondo.url;
+          homeVue.logo = this.apiUrl+response.data.logo.url;
           console.log(homeVue.logo);
       });
     }

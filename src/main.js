@@ -3,11 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
 import { Slide } from 'vue-burger-menu'
 
 Vue.use(Slide)
-
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -1,15 +1,15 @@
 <template>
   <div id="menu">
     <Slide width="350">
-      <a href="index.html"
-        ><div class="logomenu_txt">MEMORIAS DEL PERIODISMO</div></a
-      >
+      <!--HOME-->
+      <router-link :to="`/home`">
+      <div class="logomenu_txt">MEMORIAS DEL PERIODISMO</div>
+      </router-link>
+      <!--DOS COLUMNAS-->
       <div class="itemMenu" v-for="(data, index) in dataMenu" :key="index">
-        <!-- <a :id="data.id" href="#">
-              <span>{{data.NombrePagina}} xxx</span>
-            </a>  -->
-            <a @click="ir(data.NombrePagina)" href="#">{{ data.NombrePagina }}</a>
+            <router-link :to="`/${data.NombrePagina}`">{{data.NombrePagina}}</router-link>
       </div>
+      <!--OTRO-->
     </Slide>
   </div>
 </template>
@@ -28,29 +28,23 @@ export default {
   },
   computed: {},
   mounted() {
-    this.traerMenu();
+    this.traer2Col();
   },
   data() {
     return {
       dataMenu: [],
+      homeUrl:'home'
     };
   },
   methods: {
-    traerMenu() {
+    traer2Col() {
       let urlInicio = process.env.API + "/paginas-2-colum";
-      let menu = this;
-      console.log(urlInicio);
       axios.get(urlInicio).then((response) => {
-        menu.dataMenu = response.data.Paginas;
-        console.log("Menu");
-        console.log(menu.dataMenu);
+        this.dataMenu = response.data.Paginas;
+        console.info(this.dataMenu)
       });
-    },
-    ir(data){
-      this.$router.push(data);
-      window.location.reload();
     }
-  },
+  }
 };
 </script>
 

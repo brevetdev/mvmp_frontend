@@ -5,7 +5,7 @@ import DosColum from '../views/DosColum.vue'
 Vue.use(Router)
 export default new Router({
     routes: [{
-            path: '/',
+            path: '/home',
             name: 'HomeView',
             component: HomeView
         },
