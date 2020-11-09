@@ -1,5 +1,5 @@
 <template>
-  <div id="menu">
+  <div id="menu" >
     <Slide width="350">
       <!--HOME-->
       <router-link :to="`/home`">
@@ -7,7 +7,7 @@
       </router-link>
       <!--DOS COLUMNAS-->
       <div class="itemMenu" v-for="(data, index) in dataMenu" :key="index">
-            <router-link :to="`/${data.NombrePagina}`">{{data.NombrePagina}}</router-link>
+            <router-link :to="`/paginas/${data.NombrePagina}`">{{data.NombrePagina}}</router-link>
       </div>
       <!--OTRO-->
     </Slide>
@@ -33,7 +33,8 @@ export default {
   data() {
     return {
       dataMenu: [],
-      homeUrl:'home'
+      homeUrl:'home',
+      flag: false
     };
   },
   methods: {
@@ -41,8 +42,11 @@ export default {
       let urlInicio = process.env.API + "/paginas-2-colum";
       axios.get(urlInicio).then((response) => {
         this.dataMenu = response.data.Paginas;
-        console.info(this.dataMenu)
       });
+    },
+    isOn(){
+      this.flag = true;
+    console.log(this.flag);
     }
   }
 };
@@ -54,7 +58,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #949494;
   margin-top: 60px;
 
   .logomenu_txt {

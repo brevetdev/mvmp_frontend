@@ -3,9 +3,10 @@
     <div v-for="(data, index) in dataPag" :key="index" class="doscolumn_container__item" v-bind:class="{ main_column : index==0 }">
       <div v-if="index == 0" class="doscolumn_container__item--izquierda">
         <h1>{{ data.titulo }}</h1>
-        <p>
+           <p>
           {{ data.descripcion }}
         </p>
+       
       </div>
       <div v-if="index == 1" class="doscolumn_container__item--derecha">
         <div v-html="parseoHtml(data.descripcion) " class="html_render"></div>
@@ -100,11 +101,11 @@ export default {
               letter-spacing: 1.5px;
               font-size: 14px;
               line-height: 1.6em;
-              color: #f8a9ae;
+              background-image: url("../assets/bgTextPrueba.png");
+              background-size: cover;
               -webkit-background-clip: text;
-              background-clip: text;
-              padding: 10px 10px 0 0;
-              display: inline;
+              color: transparent;
+                
         }
       }
       &--derecha {
@@ -127,10 +128,10 @@ export default {
                 margin-top: 0;
                 margin-bottom: 1rem;
                 font-family: 'Ibarra Real Nova';
-                color: #d1d1d1;
                 font-size: 16px;
                 letter-spacing: 1px;
                 margin: 0;
+                color: #d1d1d1;
           }
         }
         .container_images {
