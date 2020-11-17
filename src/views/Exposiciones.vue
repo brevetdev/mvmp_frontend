@@ -1,20 +1,47 @@
 <template>
   <div class="expo_container">
-    <div id="fullpage" >
-      <div
-        v-for="(data, index) in mainData" :key="index" class="section expo_container__main ">
-          <p v-if="data.seccionPrincipal">
-            {{ data.imagenesRecurso_1.url }}
-          </p>
-         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed vel rerum quae officiis possimus magni temporibus. Nihil corporis id voluptas dicta necessitatibus sint, in reprehenderit cumque a dolor minima quod. Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus molestiae pariatur expedita, earum repellat id sapiente modi ea praesentium dolorum officiis ab non architecto tempore autem, tempora ipsum distinctio maxime! Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam dicta, suscipit perferendis accusamus, accusantium eius commodi fuga saepe consectetur totam vero ex explicabo consequuntur ratione. Dicta velit reprehenderit ipsam aliquam.</p>
+    <full-page :options="options" id="fullpage" v-if="isLoaded">
+      <div v-for="(data, index) in mainData" :key="index" class="section" v-bind:id="'section'+index">
 
+        <div  v-if="data.seccionPrincipal" v-bind:id="{ '' : data.seccionPrincipal }">
+          <div class="introduccion">  
+            <div id= text >
+                <h1>Caquetá</h1>
+                <p class="subtitle">Dando la vuelta al olvido</p>
+            </div>
+        </div>
+          <div class="caqueta">
+            <div class="capa _1 " style="animation-duration:3s;animation-delay:0.5s;" v-bind:style="{ 'background-image': 'url('+imgFondo+')'}"></div>
+            <div class="capa _2 " style="animation-duration:3s;animation-delay:1s;"></div>
+            <div class="capa _3 " style="animation-duration:3s;animation-delay:1.5s;"></div>
+            <div class="capa _4 " style="animation-duration:3s;animation-delay:2s;"></div>
+            <div class="capa _5 " style="animation-duration:3s;animation-delay:3s;"></div>
+          </div>
+        </div>
+
+
+        <div v-else>
+          <p>  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed vel rerum
+          quae officiis possimus magni temporibus. Nihil corporis id voluptas
+          dicta necessitatibus sint, in reprehenderit cumque a dolor minima
+          quod. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Delectus molestiae pariatur expedita, earum repellat id sapiente modi
+          ea praesentium dolorum officiis ab non architecto tempore autem,
+          tempora ipsum distinctio maxime! Lorem ipsum dolor sit amet
+          consectetur adipisicing elit. Numquam dicta, suscipit perferendis
+          accusamus, accusantium eius commodi fuga saepe consectetur totam vero
+          ex explicabo consequuntur ratione. Dicta velit reprehenderit ipsam
+          aliquam.
+          </p>
+        </div>
       </div>
-    </div>
+    </full-page>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import VueFullPage from 'vue-fullpage.js'
 
 export default {
   name: "Exposicion",
@@ -27,23 +54,24 @@ export default {
     this.nameRoute = this.$route.params.nombre;
     console.log(this.nameRoute);
     this.traerInfo(this.nameRoute);
-    this.initFull();
- 
   },
   data() {
     return {
+      isLoaded: false,
       mainData: [],
       apiUrl: process.env.API,
+      imgFondo: '',
+      imgFondo1: '',
+      imgFondo2: '',
+      imgFondo3: '',
+      options: {
+            licenseKey: '4%2M$#W?x0',
+            navigation: true,
+             anchors: ['section0', 'section1', 'section3', 'section4', 'section5', 'section6', 'section7','section8','section9','section10']
+      } 
     };
   },
   methods: {
-      initFull() {
-      var myFullpage = new fullpage("#fullpage", {
-      licenseKey: "4%2M$#W?x0",
-      navigation: true,
-      navigationPosition: "right",
-        });
-      },
     parseoHtml(msg) {
       var showdown = require("showdown");
       var converter = new showdown.Converter();
@@ -57,7 +85,14 @@ export default {
             response.data.paginasExposiciones[i].nombrePagina === nombreRuta
           ) {
             this.mainData = response.data.paginasExposiciones[i].agregarSeccion;
-            console.log(this.mainData);
+            console.log(response.data.paginasExposiciones[i].agregarSeccion[i].seccionPrincipal);
+            if(response.data.paginasExposiciones[i].agregarSeccion[i].seccionPrincipal){
+              this.imgFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[i].imagenesRecurso_1.url;
+              this.imgFondo1 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[i].imagenesRecurso_2.url;
+              this.imgFondo2 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[i].imagenesRecurso_3.url;
+              this.imgFondo3 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[i].imagenesRecurso_4.url;
+            }
+            this.isLoaded = true;
           } else {
             continue;
           }
@@ -72,10 +107,18 @@ export default {
 <style lang="scss" scoped>
 @import "../sass/main";
 .expo_container {
-  &__main {
+  
+    .introduccion {
+    display: flex;
+    position: absolute;
+    z-index: 1;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}  
     div#page_Animation {
       width: 100vw;
-      height: 100vh;
+      height: 100%;
       display: block;
       position: relative;
       display: flex;
@@ -120,6 +163,6 @@ export default {
         }
       }
     }
-  }
+    
 }
 </style>

@@ -6,14 +6,14 @@
         <div class="logomenu_txt">MEMORIAS DEL PERIODISMO</div>
       </router-link>
       <!--DOS COLUMNAS-->
-      <div class="itemMenu" v-for="(data, index) in data2Col" :key="index">
+      <div class="itemMenu" v-for="(data, index) in data2Col" :key="'2col'+index">
         <router-link :to="`/paginas/${data.NombrePagina}`">
          <span>  {{data.NombrePagina}}</span> 
         </router-link>
       </div>
 
       <!--Exposiciones-->
-      <div class="bm-item-list"  v-for="(data, index) in  dataExpo" :key="index">
+      <div class="bm-item-list"  v-for="(data, index) in  dataExpo" :key="'expo'+index">
         <router-link :to="`/exposicion/${data.nombrePagina}`">
           <span >  {{data.nombrePagina}}</span>
         </router-link>
