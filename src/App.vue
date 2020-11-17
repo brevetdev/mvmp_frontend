@@ -1,7 +1,7 @@
 <template>
     <div id="app">
       <router-view/>
-      <Menu id="menu"></Menu>
+      <Menu></Menu>
     </div>
   </template>
 <!-- Global site tag (gtag.js) - Google Analytics -->

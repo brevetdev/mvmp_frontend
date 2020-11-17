@@ -1,15 +1,23 @@
 <template>
-  <div id="menu" >
+  <div id="menu">
     <Slide width="350">
       <!--HOME-->
       <router-link :to="`/home`">
-      <div class="logomenu_txt">MEMORIAS DEL PERIODISMO</div>
+        <div class="logomenu_txt">MEMORIAS DEL PERIODISMO</div>
       </router-link>
       <!--DOS COLUMNAS-->
-      <div class="itemMenu" v-for="(data, index) in dataMenu" :key="index">
-            <router-link :to="`/paginas/${data.NombrePagina}`">{{data.NombrePagina}}</router-link>
+      <div class="itemMenu" v-for="(data, index) in data2Col" :key="index">
+        <router-link :to="`/paginas/${data.NombrePagina}`">
+         <span>  {{data.NombrePagina}}</span> 
+        </router-link>
       </div>
-      <!--OTRO-->
+
+      <!--Exposiciones-->
+      <div class="bm-item-list"  v-for="(data, index) in  dataExpo" :key="index">
+        <router-link :to="`/exposicion/${data.nombrePagina}`">
+          <span >  {{data.nombrePagina}}</span>
+        </router-link>
+      </div>
     </Slide>
   </div>
 </template>
@@ -29,26 +37,34 @@ export default {
   computed: {},
   mounted() {
     this.traer2Col();
+    this.traerExpo();
   },
   data() {
     return {
-      dataMenu: [],
-      homeUrl:'home',
-      flag: false
+      data2Col: [],
+      dataExpo: [],
+      homeUrl: "home",
+      flag: false,
     };
   },
   methods: {
     traer2Col() {
       let urlInicio = process.env.API + "/paginas-2-colum";
       axios.get(urlInicio).then((response) => {
-        this.dataMenu = response.data.Paginas;
+        this.data2Col = response.data.Paginas;
       });
     },
-    isOn(){
+    traerExpo(){
+      let urlInicio = process.env.API + "/exposicines";
+      axios.get(urlInicio).then((response)=>{
+        this.dataExpo = response.data.paginasExposiciones;
+      });
+    },
+    isOn() {
       this.flag = true;
-    console.log(this.flag);
-    }
-  }
+      console.log(this.flag);
+    },
+  },
 };
 </script>
 
@@ -56,9 +72,7 @@ export default {
 #menu {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #949494;
   margin-top: 60px;
 
   .logomenu_txt {
@@ -94,7 +108,7 @@ export default {
     cursor: pointer;
   }
   .bm-burger-bars {
-    background-color: #373a47;
+    background-color: #fff;
   }
   .line-style {
     position: absolute;
@@ -115,7 +129,7 @@ export default {
     height: 24px;
     width: 24px;
   }
-  .bm-menu {
+  /deep/ .bm-menu {
     height: 100%; /* 100% Full-height */
     width: 0; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
@@ -135,20 +149,24 @@ export default {
     color: #b8b7ad;
     margin-left: 0%;
     font-size: 20px;
+    span{
+      color: #000;
+      
+    }
   }
   .bm-item-list > * {
     display: flex;
     text-decoration: none;
-  }
-  .bm-item-list > * > span {
-    margin-left: 10px;
+    }
+ /deep/ .bm-item-list > * > span {
+    
     font-weight: 700;
-    color: #000000 !important;
     font-family: "Ibarra Real Nova";
-    font-size: 1.3em;
+    font-size: 1em;
     font-weight: 100;
-    margin-left: -20px;
-  }
+    margin: 23px 2em;
+  } 
+  
   .bm-item-list > * > span:hover {
     color: #ae8ec2 !important;
   }
