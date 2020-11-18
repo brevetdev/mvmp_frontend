@@ -1,12 +1,7 @@
 <template>
   <div class="expo_container">
     <full-page :options="options" id="fullpage" v-if="isLoaded">
-      <div
-        v-for="(data, index) in mainData"
-        :key="index"
-        class="section"
-        v-bind:id="'section' + index"
-      >
+      <div v-for="(data, index) in mainData" :key="index" class="section">
         <div v-if="data.seccionPrincipal">
           <div class="exposicion_introduccion">
             <div class="exposicion_texto animated animated-slow fadeInUp" style="animation-duration:3s;animation-delay:2s;">
@@ -36,52 +31,37 @@
             </a>
           </div>
           <div class="page_animation">
-            <div
-              class="page_animation__capa page_animation__capa_1 animated fadeIn"
-              style="animation-duration: 3s; animation-delay: 0.5s"
-              v-bind:style="{ 'background-image': 'url(' + imgFondo + ')' }"
-            ></div>
-            <div
-              class="page_animation__capa page_animation__capa_2  animated fadeIn"
-              style="animation-duration: 3s; animation-delay: 1s"
-              v-bind:style="{ 'background-image': 'url(' + imgFondo1 + ')' }"
-            ></div>
-            <div
-              class="page_animation__capa page_animation__capa_3  animated fadeIn"
-              style="animation-duration: 3s; animation-delay: 1.5s"
-              v-bind:style="{ 'background-image': 'url(' + imgFondo2 + ')' }"
-            ></div>
-            <div
-              class="page_animation__capa page_animation__capa_4  animated fadeIn"
-              style="animation-duration: 3s; animation-delay: 2s"
-              v-bind:style="{ 'background-image': 'url(' + imgFondo3 + ')' }"
-            ></div>
-            <div
-              class="page_animation__capa page_animation__capa_5 animated fadeIn"
-              style="animation-duration: 3s; animation-delay: 3s"
-              v-bind:style="{ 'background-image': 'url(' + imgFondo4 + ')' }"
-            ></div>
+            <div class="page_animation__capa page_animation__capa_1 animated fadeIn" style="animation-duration: 3s; animation-delay: 0.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo + ')' }"></div>
+            <div class="page_animation__capa page_animation__capa_2 animated fadeIn" style="animation-duration: 3s; animation-delay: 1s" v-bind:style="{ 'background-image': 'url(' + imgFondo1 + ')' }"></div>
+            <div class="page_animation__capa page_animation__capa_3 animated fadeIn" style="animation-duration: 3s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo2 + ')' }" ></div>
+            <div class="page_animation__capa page_animation__capa_4" style="animation-duration: 3s; animation-delay: 2s"  v-bind:style="{ 'background-image': 'url(' + imgFondo3 + ')' }"></div>
           </div>
         </div>
 
         <div v-else>
-            <div class="texto_exposiciones">
-              <div class="texto_exposiciones__parrafo">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed vel
-                  rerum quae officiis possimus magni temporibus. Nihil corporis id
-                  voluptas dicta necessitatibus sint, in reprehenderit cumque a dolor
-                  minima quod. Lorem ipsum dolor sit amet consectetur adipisicing
-                  elit. Delectus molestiae pariatur expedita, earum repellat id
-                  sapiente modi ea praesentium dolorum officiis ab non architecto
-                  tempore autem, tempora ipsum distinctio maxime! Lorem ipsum dolor
-                  sit amet consectetur adipisicing elit. Numquam dicta, suscipit
-                  perferendis accusamus, accusantium eius commodi fuga saepe
-                  consectetur totam vero ex explicabo consequuntur ratione. Dicta
-                  velit reprehenderit ipsam aliquam.
-                </p>
+          <div class="ComponentBg">
+            <div class="ComponentBg_Container">
+              
+                <div class="ComponentBg_Container--lazyloaded" v-bind:style="{'background-image': 'url(' + bgSecondary[index] + ')' }"></div>
               </div>
+              
+              
+            <div class="TextWrapper">
+              <h2
+                class="TextComponent TextComponent--left animated animated-slow fadeInUp"
+                style="animation-delay: 0.75s"
+              >
+                {{ data.descripcion }}
+              </h2>
             </div>
+            <div class="btn">
+              <a
+                id="btn_2"
+                class="ButtonCta ButtonCta--icon ButtonComponent--historia"
+                ><i class="zmdi zmdi-play-circle">{{ data.textoBoton }}</i></a
+              >
+            </div>
+          </div>
         </div>
       </div>
     </full-page>
@@ -113,6 +93,9 @@ export default {
       imgFondo1: "",
       imgFondo2: "",
       imgFondo3: "",
+      isImg: false,
+      isVdo: false,
+      bgSecondary: [],
       options: {
         licenseKey: "4%2M$#W?x0",
         navigation: true
@@ -129,39 +112,40 @@ export default {
       let url2Col = process.env.API + "/exposicines";
       axios.get(url2Col).then((response) => {
         for (let i = 0; i < response.data.paginasExposiciones.length; i++) {
-          if (
-            response.data.paginasExposiciones[i].nombrePagina === nombreRuta
-          ) {
-            this.mainData = response.data.paginasExposiciones[i].agregarSeccion;
-            console.log(
-              response.data.paginasExposiciones[i].agregarSeccion[i]
-                .seccionPrincipal
-            );
-            if (
-              response.data.paginasExposiciones[i].agregarSeccion[i]
-                .seccionPrincipal
-            ) {
-              this.imgFondo =
-                this.apiUrl +
-                response.data.paginasExposiciones[i].agregarSeccion[i]
-                  .imagenesRecurso_1.url;
-              this.imgFondo1 =
-                this.apiUrl +
-                response.data.paginasExposiciones[i].agregarSeccion[i]
-                  .imagenesRecurso_2.url;
-              this.imgFondo2 =
-                this.apiUrl +
-                response.data.paginasExposiciones[i].agregarSeccion[i]
-                  .imagenesRecurso_3.url;
-              this.imgFondo3 =
-                this.apiUrl +
-                response.data.paginasExposiciones[i].agregarSeccion[i]
-                  .imagenesRecurso_4.url;
-            }
-            this.isLoaded = true;
+
+          //VALIDAR LA RUTA CON LA PÁGINA
+          if (response.data.paginasExposiciones[i].nombrePagina === nombreRuta) {
+                  this.mainData = response.data.paginasExposiciones[i].agregarSeccion;
+
+                  console.log( response.data.paginasExposiciones[i].agregarSeccion[i].seccionPrincipal );
+                  console.log("index",i);
+                  //SECCIONES
+                  for (let j = 0; j < response.data.paginasExposiciones[i].agregarSeccion.length; j++) {
+                    //VALIDAR SECCION PRINCIPAL
+                          if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal) {
+                          this.imgFondo =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url === undefined ?  'empty':  this.imgFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url;
+                          this.imgFondo1 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url === undefined ?  'empty':  this.imgFondo1 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url;
+                          this.imgFondo2 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url === undefined ?  'empty':  this.imgFondo2 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url;
+                          this.imgFondo3 = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url === undefined ?  'empty':  this.imgFondo3 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url;
+                        }
+                        //VALIDAR SECCIONES SECUNDARIAS
+                                if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal == undefined) {
+                                  //VALIDAR SI ES IMAGEN O VIDEO EL FONDO
+                                          if(response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== undefined){
+                                            this.bgSecondary[j] = this.apiUrl+response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo.url;
+                                            this.isImg = true;
+                                          }else if(response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== undefined){
+                                            this.bgSecondary[j] = this.apiUrl+response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo.url;
+                                            this.isVdo = true;
+                                          }          
+                                }
+                        }
+          
+                  this.isLoaded = true;
           } else {
             continue;
           }
+
         }
       });
     },
@@ -281,6 +265,24 @@ export default {
         z-index: 1;
         margin-bottom: 0;
         font-family: 'Ibarra Real Nova';
+      }
+    }
+  }
+  .ComponentBg {
+    height: 100vh;
+    display: flex;
+    &_Container {
+      background-position: center;
+      background-color: #2c2327;
+      height: 100%;
+
+      &--lazyloaded {
+        opacity: 0.7;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        position: absolute;
       }
     }
   }
