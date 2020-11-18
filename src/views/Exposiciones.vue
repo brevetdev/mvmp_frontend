@@ -41,13 +41,17 @@
         <div v-else>
           <div class="ComponentBg">
             <div class="ComponentBg_Container">
-              
+              <div v-if="isImg">
                 <div class="ComponentBg_Container--lazyloaded" v-bind:style="{'background-image': 'url(' + bgSecondary[index] + ')' }"></div>
               </div>
-              
-                
-           
-            <div class="TextWrapper">
+              <div v-else-if="IsVdeo">
+                <div class="ComponentBg_Container--lazyloaded">
+                  <video loop  data-autoplay data-keepplaying>
+                            <source v-src="bgSecondary[index]" type="video/mp4">
+                   </video>
+                </div>
+              </div>
+               <div class="TextWrapper">
               <h2
                 class="TextComponent TextComponent--left animated animated-slow fadeInUp"
                 style="animation-delay: 0.75s"
@@ -62,6 +66,9 @@
                 ><i class="zmdi zmdi-play-circle">{{ data.textoBoton }}</i></a
               >
             </div>
+              </div>
+             
+              
           </div>
         </div>
       </div>
