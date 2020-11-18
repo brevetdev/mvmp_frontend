@@ -1,12 +1,7 @@
 <template>
   <div class="expo_container">
     <full-page :options="options" id="fullpage" v-if="isLoaded">
-      <div
-        v-for="(data, index) in mainData"
-        :key="index"
-        class="section"
-        v-bind:id="'section' + index"
-      >
+      <div v-for="(data, index) in mainData" :key="index" class="section">
         <div v-if="data.seccionPrincipal">
           <div class="introduccion">
             <div id="text">
@@ -16,7 +11,7 @@
           </div>
           <div class="btn--center">
             <a href="#2">
-              <span>{{data.textoBoton}}</span>
+              <span>{{ data.textoBoton }}</span>
               <svg
                 aria-hidden="false"
                 focusable="false"
@@ -36,48 +31,36 @@
             </a>
           </div>
           <div id="page_Animation" class="caqueta">
-            <div
-              class="capa _1"
-              style="animation-duration: 3s; animation-delay: 0.5s"
-              v-bind:style="{ 'background-image': 'url(' + imgFondo + ')' }"
-            ></div>
-            <div
-              class="capa _2"
-              style="animation-duration: 3s; animation-delay: 1s"
-              v-bind:style="{ 'background-image': 'url(' + imgFondo1 + ')' }"
-            ></div>
-            <div
-              class="capa _3"
-              style="animation-duration: 3s; animation-delay: 1.5s"
-              v-bind:style="{ 'background-image': 'url(' + imgFondo2 + ')' }"
-            ></div>
-            <div
-              class="capa _4"
-              style="animation-duration: 3s; animation-delay: 2s"
-              v-bind:style="{ 'background-image': 'url(' + imgFondo3 + ')' }"
-            ></div>
-            <div
-              class="capa _5"
-              style="animation-duration: 3s; animation-delay: 3s"
-              v-bind:style="{ 'background-image': 'url(' + imgFondo4 + ')' }"
-            ></div>
+            <div class="capa _1" style="animation-duration: 3s; animation-delay: 0.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo + ')' }"></div>
+            <div class="capa _2" style="animation-duration: 3s; animation-delay: 1s" v-bind:style="{ 'background-image': 'url(' + imgFondo1 + ')' }"></div>
+            <div class="capa _3" style="animation-duration: 3s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo2 + ')' }" ></div>
+            <div class="capa _4" style="animation-duration: 3s; animation-delay: 2s"  v-bind:style="{ 'background-image': 'url(' + imgFondo3 + ')' }"></div>
           </div>
         </div>
 
         <div v-else>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed vel
-            rerum quae officiis possimus magni temporibus. Nihil corporis id
-            voluptas dicta necessitatibus sint, in reprehenderit cumque a dolor
-            minima quod. Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Delectus molestiae pariatur expedita, earum repellat id
-            sapiente modi ea praesentium dolorum officiis ab non architecto
-            tempore autem, tempora ipsum distinctio maxime! Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Numquam dicta, suscipit
-            perferendis accusamus, accusantium eius commodi fuga saepe
-            consectetur totam vero ex explicabo consequuntur ratione. Dicta
-            velit reprehenderit ipsam aliquam.
-          </p>
+          <div class="ComponentBg">
+            <div class="ComponentBg_Container">
+              <div class="ComponentBg_Container--lazyloaded" v-bind:style="{'background-image': 'url(' + img_vidFondo + ')' }">
+                {{ img_vidFondo }}
+              </div>
+            </div>
+            <div class="TextWrapper">
+              <h2
+                class="TextComponent TextComponent--left animated animated-slow fadeInUp"
+                style="animation-delay: 0.75s"
+              >
+                {{ data.descripcion }}
+              </h2>
+            </div>
+            <div class="btn">
+              <a
+                id="btn_2"
+                class="ButtonCta ButtonCta--icon ButtonComponent--historia"
+                ><i class="zmdi zmdi-play-circle">{{ data.textoBoton }}</i></a
+              >
+            </div>
+          </div>
         </div>
       </div>
     </full-page>
@@ -109,6 +92,7 @@ export default {
       imgFondo1: "",
       imgFondo2: "",
       imgFondo3: "",
+      img_vidFondo: "",
       options: {
         licenseKey: "4%2M$#W?x0",
         navigation: true,
@@ -137,39 +121,33 @@ export default {
       let url2Col = process.env.API + "/exposicines";
       axios.get(url2Col).then((response) => {
         for (let i = 0; i < response.data.paginasExposiciones.length; i++) {
-          if (
-            response.data.paginasExposiciones[i].nombrePagina === nombreRuta
-          ) {
+          if (response.data.paginasExposiciones[i].nombrePagina === nombreRuta) {
             this.mainData = response.data.paginasExposiciones[i].agregarSeccion;
             console.log(
               response.data.paginasExposiciones[i].agregarSeccion[i]
                 .seccionPrincipal
             );
-            if (
-              response.data.paginasExposiciones[i].agregarSeccion[i]
-                .seccionPrincipal
-            ) {
-              this.imgFondo =
-                this.apiUrl +
-                response.data.paginasExposiciones[i].agregarSeccion[i]
-                  .imagenesRecurso_1.url;
-              this.imgFondo1 =
-                this.apiUrl +
-                response.data.paginasExposiciones[i].agregarSeccion[i]
-                  .imagenesRecurso_2.url;
-              this.imgFondo2 =
-                this.apiUrl +
-                response.data.paginasExposiciones[i].agregarSeccion[i]
-                  .imagenesRecurso_3.url;
-              this.imgFondo3 =
-                this.apiUrl +
-                response.data.paginasExposiciones[i].agregarSeccion[i]
-                  .imagenesRecurso_4.url;
+            console.log("index",i);
+            for (let j = 0; j < response.data.paginasExposiciones[i].agregarSeccion.length; j++) {
+              if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal) {
+              this.imgFondo =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url === undefined ?  'empty':  this.imgFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url;
+              this.imgFondo1 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url === undefined ?  'empty':  this.imgFondo1 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url;
+              this.imgFondo2 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url === undefined ?  'empty':  this.imgFondo2 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url;
+              this.imgFondo3 = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url === undefined ?  'empty':  this.imgFondo3 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url;
             }
+            if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal == undefined) {
+               // this.img_vidFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagen_videoFondo.url;
+              // this.img_vidFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagen_videoFondo;
+               this.img_vidFondo = response.data.paginasExposiciones[i].agregarSeccion[j].imagen_videoFondo === undefined ?  'empty':  this.img_vidFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagen_videoFondo.url;
+               console.log(this.img_vidFondo.split('.'));
+            }
+            }
+    
             this.isLoaded = true;
           } else {
             continue;
           }
+
         }
       });
     },
@@ -271,6 +249,14 @@ export default {
           background-size: cover;
           background-repeat: no-repeat;
         }
+      }
+    }
+  }
+  .ComponentBg {
+    &_Container {
+      background-position: center;
+      &--lazyloaded {
+        opacity: 1;
       }
     }
   }
