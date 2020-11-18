@@ -1,7 +1,7 @@
 <template>
   <div class="expo_container">
     <full-page :options="options" id="fullpage" v-if="isLoaded">
-      <div v-for="(data, index) in mainData" :key="index" class="section">
+      <div v-for="(data, index) in mainData" :key="'main'+index" class="section">
         <div v-if="data.seccionPrincipal">
           <div class="exposicion_introduccion">
             <div class="exposicion_texto animated animated-slow fadeInUp" style="animation-duration:3s;animation-delay:2s;">
@@ -41,9 +41,20 @@
         <div v-else>
           <div class="ComponentBg">
             <div class="ComponentBg_Container">
+
+               
+
+                  <div v-if="bgSecondary[index].mime.split('/')[0] == 'image'" class="ComponentBg_Container--lazyloaded" v-bind:style="{'background-image': 'url(' +apiUrl+bgSecondary[index].url +')' }"> {{index}} </div>
               
-                <div class="ComponentBg_Container--lazyloaded" v-bind:style="{'background-image': 'url(' + bgSecondary[index] + ')' }"></div>
-              </div>
+              
+                <div v-if="bgSecondary[index].mime.split('/')[0] == 'video'" class="ComponentBg_Container--lazyloaded">
+                  <video loop  data-autoplay data-keepplaying>
+                            <source v-bind:src="apiUrl +bgSecondary[index].url" type="video/mp4">
+                   </video>
+                </div>
+                  
+                  
+              
               
               
             <div class="TextWrapper">
@@ -61,6 +72,9 @@
                 ><i class="zmdi zmdi-play-circle">{{ data.textoBoton }}</i></a
               >
             </div>
+              </div>
+             
+              
           </div>
         </div>
       </div>
@@ -93,8 +107,8 @@ export default {
       imgFondo1: "",
       imgFondo2: "",
       imgFondo3: "",
-      isImg: false,
-      isVdo: false,
+      isImg: '',
+      isVdo: '',
       bgSecondary: [],
       options: {
         licenseKey: "4%2M$#W?x0",
@@ -132,11 +146,12 @@ export default {
                                 if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal == undefined) {
                                   //VALIDAR SI ES IMAGEN O VIDEO EL FONDO
                                           if(response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== undefined){
-                                            this.bgSecondary[j] = this.apiUrl+response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo.url;
-                                            this.isImg = true;
+                                            this.bgSecondary[j] = response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo;
+                                            console.log(this.bgSecondary[j].mime);
+                                            
                                           }else if(response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== undefined){
-                                            this.bgSecondary[j] = this.apiUrl+response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo.url;
-                                            this.isVdo = true;
+                                            this.bgSecondary[j] = response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo;
+                                            console.log(this.bgSecondary[j].mime);
                                           }          
                                 }
                         }
@@ -274,15 +289,20 @@ export default {
     &_Container {
       background-position: center;
       background-color: #2c2327;
-      height: 100%;
-
       &--lazyloaded {
-        opacity: 0.7;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 100vw;
-        position: absolute;
+            opacity: 0.7;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+            position: absolute;
+            &video{
+                min-height: 100%;
+                min-width: 100%;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+            }
       }
     }
   }
