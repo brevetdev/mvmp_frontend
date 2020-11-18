@@ -68,23 +68,45 @@ export default {
 <style lang="scss" scoped>
 @import "../sass/main";
 .doscolumn_container {
-  height: 100vw;
+    height: 100vh;
     padding: 40px 50px;
     display: flex;
     width: auto;
     flex-direction: row;
     background-color: #2c2327;
+    @include breakpoint(phone) {
+      height: auto;
+      padding: 1em;
+      width: 100%;
+      display: block;
+    }
+    @include breakpoint(tablet) {
+      height: 100vh;
+      padding: 1em;
+    }
     &__item {
       display: flex;
       width: 60%;
+       @include breakpoint(phone) {
+         width: 100%;
+       }
       &.main_column {
         width: 38%;
+         @include breakpoint(phone) {
+         width: 100%;
+         margin-top: 4em;
+        }
       }
       &--izquierda {
         width: 100%;
         margin-left: 2em;
         flex-direction: column;
         padding: 0em 3em;
+        @include breakpoint(phone) {
+           margin-left: 0;
+           padding: .5em;
+        }
+        
         h1 {
           font-family: "Libre Franklin", sans-serif;
           text-transform: uppercase;
@@ -104,8 +126,7 @@ export default {
               background-image: url("../assets/bgTextPrueba.png");
               background-size: cover;
               -webkit-background-clip: text;
-              color: transparent;
-                
+              color: transparent;  
         }
       }
       &--derecha {
@@ -140,6 +161,12 @@ export default {
           margin: 2em 0em;
           &__logos {
               height: 45px;
+              @include breakpoint(phone) {
+                height: 38px;
+              }
+              @include breakpoint(tablet) {
+                height: 40px;
+              }
           }
         }
      /*    .logosCreditos{

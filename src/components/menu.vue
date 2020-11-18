@@ -69,6 +69,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../sass/main";
 #menu {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -99,16 +100,19 @@ export default {
     font-weight: bold;
     text-decoration: none;
   }
-  .bm-burger-button {
+  /deep/ .bm-burger-button {
     position: fixed;
     width: 36px;
     height: 30px;
     left: 36px;
     top: 36px;
     cursor: pointer;
+    @include breakpoint(phone) {
+      left: 21px;
+    }
   }
-  .bm-burger-bars {
-    background-color: #fff;
+  /deep/.bm-burger-bars {
+    background-color: #fff !important;
   }
   .line-style {
     position: absolute;
@@ -142,7 +146,7 @@ export default {
     transition: 0.5s; /*0.5 second transition effect to slide in the sidenav*/
   }
 
-  .bm-burger-bars {
+   /deep/ .bm-burger-bars {
     background-color: #fff;
   }
   .bm-item-list {
@@ -158,7 +162,7 @@ export default {
     display: flex;
     text-decoration: none;
     }
- /deep/ .bm-item-list > * > span {
+  /deep/ .bm-item-list > * > span {
     
     font-weight: 700;
     font-family: "Ibarra Real Nova";

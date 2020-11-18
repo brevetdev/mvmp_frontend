@@ -90,18 +90,23 @@ ul {
     position: absolute;
     width: 100vw;
     padding-top: 3em;
-    top: .0;
+    top: 0;
     bottom: 0;
     background-color: rgba(43, 42, 42, 0.568);
     text-align: center;
      @include breakpoint(phone) {
-      top: 20vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 8em;
     }
     @include breakpoint(tablet) {
-      top: 12vh;
+    }
+      @include breakpoint(desktop) {
+
     }
     @include breakpoint(desktopxl) {
-      top: 20vh;
+
     }
 }
 .mayusculas{

@@ -8,14 +8,14 @@
         v-bind:id="'section' + index"
       >
         <div v-if="data.seccionPrincipal">
-          <div class="introduccion">
-            <div id="text">
-              <h1>{{ data.tituloSeccion }}</h1>
-              <p class="subtitle">{{ data.subtituloSeccion }}</p>
+          <div class="exposicion_introduccion">
+            <div class="exposicion_texto animated animated-slow fadeInUp" style="animation-duration:3s;animation-delay:2s;">
+              <h1 class="exposicion_texto__titulo">{{ data.tituloSeccion }}</h1>
+              <p class="exposicion_texto__subtitulo">{{ data.subtituloSeccion }}</p>
             </div>
           </div>
-          <div class="btn--center">
-            <a href="#2">
+          <div class="btn_exposicion--center">
+            <a href="#2" class="btn_exposicion">
               <span>{{data.textoBoton}}</span>
               <svg
                 aria-hidden="false"
@@ -25,7 +25,7 @@
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
-                class="svg-inline--fa fa-chevron-down fa-w-14 fa-2x"
+                class="btn_exposicion__svg fa-chevron-down fa-w-14 fa-2x"
               >
                 <path
                   fill="currentColor"
@@ -35,29 +35,29 @@
               </svg>
             </a>
           </div>
-          <div id="page_Animation" class="caqueta">
+          <div class="page_animation">
             <div
-              class="capa _1"
+              class="page_animation__capa page_animation__capa_1 animated fadeIn"
               style="animation-duration: 3s; animation-delay: 0.5s"
               v-bind:style="{ 'background-image': 'url(' + imgFondo + ')' }"
             ></div>
             <div
-              class="capa _2"
+              class="page_animation__capa page_animation__capa_2  animated fadeIn"
               style="animation-duration: 3s; animation-delay: 1s"
               v-bind:style="{ 'background-image': 'url(' + imgFondo1 + ')' }"
             ></div>
             <div
-              class="capa _3"
+              class="page_animation__capa page_animation__capa_3  animated fadeIn"
               style="animation-duration: 3s; animation-delay: 1.5s"
               v-bind:style="{ 'background-image': 'url(' + imgFondo2 + ')' }"
             ></div>
             <div
-              class="capa _4"
+              class="page_animation__capa page_animation__capa_4  animated fadeIn"
               style="animation-duration: 3s; animation-delay: 2s"
               v-bind:style="{ 'background-image': 'url(' + imgFondo3 + ')' }"
             ></div>
             <div
-              class="capa _5"
+              class="page_animation__capa page_animation__capa_5 animated fadeIn"
               style="animation-duration: 3s; animation-delay: 3s"
               v-bind:style="{ 'background-image': 'url(' + imgFondo4 + ')' }"
             ></div>
@@ -65,19 +65,23 @@
         </div>
 
         <div v-else>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed vel
-            rerum quae officiis possimus magni temporibus. Nihil corporis id
-            voluptas dicta necessitatibus sint, in reprehenderit cumque a dolor
-            minima quod. Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Delectus molestiae pariatur expedita, earum repellat id
-            sapiente modi ea praesentium dolorum officiis ab non architecto
-            tempore autem, tempora ipsum distinctio maxime! Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Numquam dicta, suscipit
-            perferendis accusamus, accusantium eius commodi fuga saepe
-            consectetur totam vero ex explicabo consequuntur ratione. Dicta
-            velit reprehenderit ipsam aliquam.
-          </p>
+            <div class="texto_exposiciones">
+              <div class="texto_exposiciones__parrafo">
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed vel
+                  rerum quae officiis possimus magni temporibus. Nihil corporis id
+                  voluptas dicta necessitatibus sint, in reprehenderit cumque a dolor
+                  minima quod. Lorem ipsum dolor sit amet consectetur adipisicing
+                  elit. Delectus molestiae pariatur expedita, earum repellat id
+                  sapiente modi ea praesentium dolorum officiis ab non architecto
+                  tempore autem, tempora ipsum distinctio maxime! Lorem ipsum dolor
+                  sit amet consectetur adipisicing elit. Numquam dicta, suscipit
+                  perferendis accusamus, accusantium eius commodi fuga saepe
+                  consectetur totam vero ex explicabo consequuntur ratione. Dicta
+                  velit reprehenderit ipsam aliquam.
+                </p>
+              </div>
+            </div>
         </div>
       </div>
     </full-page>
@@ -111,19 +115,7 @@ export default {
       imgFondo3: "",
       options: {
         licenseKey: "4%2M$#W?x0",
-        navigation: true,
-        anchors: [
-          "section0",
-          "section1",
-          "section3",
-          "section4",
-          "section5",
-          "section6",
-          "section7",
-          "section8",
-          "section9",
-          "section10",
-        ],
+        navigation: true
       },
     };
   },
@@ -197,7 +189,7 @@ export default {
       }
     }
   }
-  .btn--center {
+  .btn_exposicion--center {
     position: absolute;
     text-align: center;
     top: 90vh;
@@ -227,7 +219,7 @@ export default {
       position: relative;
     }
   }
-  div#page_Animation {
+  .page_animation {
     width: 100vw;
     height: 100vh;
     display: block;
@@ -236,41 +228,59 @@ export default {
     justify-content: center;
     flex-flow: column;
     z-index: 0;
-    &.caqueta {
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-      .capa {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+      .page_animation {
+      &__capa {
         background-position: bottom;
         height: 100vh;
         width: 100vw;
         position: absolute;
         z-index: 2;
-        &._1 {
+        &_1 {
           background-position: center;
           background-size: cover;
           background-repeat: no-repeat;
         }
-        &._2 {
-          background-position: center;
-          background-size: cover;
-          background-repeat: no-repeat;
-        }
-        &._3 {
-          background-position: center;
-          background-size: cover;
-          background-repeat: no-repeat;
-        }
-        &._4 {
-          background-position: center;
-          background-size: cover;
-          background-repeat: no-repeat;
-        }
-        &._5 {
-          background-position: center;
-          background-size: cover;
-          background-repeat: no-repeat;
-        }
+      }
+      }
+    
+  }
+  .exposicion_introduccion {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+    .exposicion_texto {
+      margin-left: 15vw;
+      &__titulo {
+        font-family: 'Ibarra Real Nova', serif;
+        font-size: 5em;
+        color: rgb(255, 255, 255);
+        margin: 0px;
+      }
+      &__subtitulo {
+          font-family: 'Libre Franklin', sans-serif;
+          font-size: 3em;
+          color: rgb(255, 255, 255);
+          margin: 0.2em 0 0 0;
+      }
+    }
+  }
+  .texto_exposiciones {
+    &__parrafo {
+      p {
+        font-size: 1.87rem;
+        line-height: 48px;
+        left: 0;
+        margin-left: 100px;
+        padding-right: 250px;
+        z-index: 1;
+        margin-bottom: 0;
+        font-family: 'Ibarra Real Nova';
       }
     }
   }
