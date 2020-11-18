@@ -1,5 +1,6 @@
 <template>
-<div class="bckgr" v-bind:style="{ 'background-image': 'url('+imgFondo+')' }">
+<div class="bckgr" style=" background-image: url('https://wallpaperaccess.com/full/747833.jpg') ">
+<!--<div class="bckgr" v-bind:style="{ 'background-image': 'url('+imgFondo+')' }">-->
   <!--<div v-html="msg"></div>-->
   <div id="overlay">
   <div v-for='(data, index) in dataTitulo' :key="index">
@@ -9,7 +10,6 @@
   <div class="logo">
     <div class="logo__content">
       <img v-bind:src="logo" />
-      <p>{{logo}}</p>
     </div>
   </div>
 </div>
@@ -38,7 +38,6 @@ export default {
     //var converter = new showdown.Converter();
     //this.msg = converter.makeHtml(this.msg);
     //},
-
     traerInfo(){
         let urlInicio =this.apiUrl+"/inicio";
         let homeVue = this;
@@ -88,25 +87,31 @@ ul {
     background-position: right;
 }
 #overlay {
-    color: #f8a9ae;
-    -webkit-background-clip: text;
-    background-clip: text;
     position: absolute;
     width: 100vw;
+    padding-top: 3em;
+    top: 0;
     bottom: 0;
-    top: 4vh;
+    background-color: rgba(43, 42, 42, 0.568);
     text-align: center;
      @include breakpoint(phone) {
-      top: 20vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 8em;
     }
     @include breakpoint(tablet) {
-      top: 12vh;
+    }
+      @include breakpoint(desktop) {
+
     }
     @include breakpoint(desktopxl) {
-      top: 20vh;
+
     }
 }
 .mayusculas{
+    mix-blend-mode: color-dodge;
+    color: rgba(163, 163, 163, 0.89);
     font-family: 'Libre Franklin', sans-serif;
     text-transform: uppercase;
     font-weight: 900;

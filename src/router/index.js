@@ -1,18 +1,30 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import HomeView from '../views/Home.vue'
-import DosColum from '../views/DosColum.vue'
-Vue.use(Router)
+import Vue from 'vue';
+import Router from 'vue-router';
+import HomeView from '../views/Home.vue';
+import DosColum from '../views/DosColum.vue';
+import Exposicion from '../views/Exposiciones.vue';
+Vue.use(Router);
 export default new Router({
-    routes: [{
-            path: '/home',
-            name: 'HomeView',
+    routes: [
+        //Default route -> HomeView Component.
+        {
+            path: '*',
             component: HomeView
         },
         {
-            path: '/:nombre',
+            path: '/home',
+            name:'HomeView',
+            component: HomeView
+        },
+        {
+            path: '/paginas/:nombre',
             name: 'DosColum',
             component: DosColum
+        },
+        {
+            path: '/exposicion/:nombre',
+            name: 'Exposicion',
+            component: Exposicion
         }
     ]
-})
+});
