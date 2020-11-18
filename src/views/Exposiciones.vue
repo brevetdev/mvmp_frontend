@@ -1,8 +1,8 @@
 <template>
   <div class="expo_container">
     <full-page :options="options" id="fullpage" v-if="isLoaded">
-      <div v-for="(data, index) in mainData" :key="'main'+index" class="section">
-        <div v-if="data.seccionPrincipal">
+      <div v-for="(data, index) in mainData" :key="'main'+index" class="section" >
+        <div v-if="data.seccionPrincipal" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
           <div class="exposicion_introduccion">
             <div class="exposicion_texto animated animated-slow fadeInUp" style="animation-duration:3s;animation-delay:2s;">
               <h1 class="exposicion_texto__titulo">{{ data.tituloSeccion }}</h1>
@@ -37,44 +37,31 @@
             <div class="page_animation__capa page_animation__capa_4" style="animation-duration: 3s; animation-delay: 2s"  v-bind:style="{ 'background-image': 'url(' + imgFondo3 + ')' }"></div>
           </div>
         </div>
-
         <div v-else>
-          <div class="ComponentBg">
-            <div class="ComponentBg_Container">
-
-               
-
-                  <div v-if="bgSecondary[index].mime.split('/')[0] == 'image'" class="ComponentBg_Container--lazyloaded" v-bind:style="{'background-image': 'url(' +apiUrl+bgSecondary[index].url +')' }"> {{index}} </div>
-              
-              
-                <div v-if="bgSecondary[index].mime.split('/')[0] == 'video'" class="ComponentBg_Container--lazyloaded">
-                  <video loop  data-autoplay data-keepplaying>
+          <div class="seccion_secu">
+            <div class="seccion_secu_container">
+              <div v-if="data.videoFondo !== undefined && data.videoFondo !== null">
+                    <video class="seccion_secu_container__video" loop  data-autoplay data-keepplaying>
                             <source v-bind:src="apiUrl +bgSecondary[index].url" type="video/mp4">
                    </video>
-                </div>
-                  
-                  
-              
-              
-              
-            <div class="TextWrapper">
+              </div>
+              <div class="seccion_secu_container__imagen" v-if="data.imagenFondo !== undefined && data.imagenFondo !== null" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
+              </div>
+            <div class="seccion_secu_container__texto">
               <h2
-                class="TextComponent TextComponent--left animated animated-slow fadeInUp"
+                class="seccion_secu_container__texto--izquierda animated animated-slow fadeInUp"
                 style="animation-delay: 0.75s"
               >
                 {{ data.descripcion }}
               </h2>
             </div>
-            <div class="btn">
-              <a
-                id="btn_2"
-                class="ButtonCta ButtonCta--icon ButtonComponent--historia"
-                ><i class="zmdi zmdi-play-circle">{{ data.textoBoton }}</i></a
-              >
+            <div class="seccion_secu_container__btn">
+              <a class="btn_seccionsecu">
+                <i class="zmdi zmdi-play-circle btn_seccionsecu__icono"></i>
+                {{ data.textoBoton }}
+              </a>
             </div>
-              </div>
-             
-              
+           </div>
           </div>
         </div>
       </div>
@@ -107,12 +94,14 @@ export default {
       imgFondo1: "",
       imgFondo2: "",
       imgFondo3: "",
-      isImg: '',
-      isVdo: '',
+      isImg: false,
+      isVdo: false,
       bgSecondary: [],
       options: {
         licenseKey: "4%2M$#W?x0",
-        navigation: true
+        navigation: true,
+        controlArrows: true,
+        navigationPosition: 'right'
       },
     };
   },
@@ -129,38 +118,33 @@ export default {
 
           //VALIDAR LA RUTA CON LA PÁGINA
           if (response.data.paginasExposiciones[i].nombrePagina === nombreRuta) {
-                  this.mainData = response.data.paginasExposiciones[i].agregarSeccion;
-
-                  console.log( response.data.paginasExposiciones[i].agregarSeccion[i].seccionPrincipal );
-                  console.log("index",i);
-                  //SECCIONES
-                  for (let j = 0; j < response.data.paginasExposiciones[i].agregarSeccion.length; j++) {
-                    //VALIDAR SECCION PRINCIPAL
-                          if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal) {
-                          this.imgFondo =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url === undefined ?  'empty':  this.imgFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url;
-                          this.imgFondo1 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url === undefined ?  'empty':  this.imgFondo1 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url;
-                          this.imgFondo2 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url === undefined ?  'empty':  this.imgFondo2 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url;
-                          this.imgFondo3 = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url === undefined ?  'empty':  this.imgFondo3 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url;
-                        }
-                        //VALIDAR SECCIONES SECUNDARIAS
-                                if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal == undefined) {
-                                  //VALIDAR SI ES IMAGEN O VIDEO EL FONDO
-                                          if(response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== undefined){
-                                            this.bgSecondary[j] = response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo;
-                                            console.log(this.bgSecondary[j].mime);
-                                            
-                                          }else if(response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== undefined){
-                                            this.bgSecondary[j] = response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo;
-                                            console.log(this.bgSecondary[j].mime);
-                                          }          
-                                }
-                        }
-          
-                  this.isLoaded = true;
+            this.mainData = response.data.paginasExposiciones[i].agregarSeccion;
+            //SECCIONES
+            for (let j = 0; j < response.data.paginasExposiciones[i].agregarSeccion.length; j++) {
+            //VALIDAR SECCION PRINCIPAL
+              if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal) {
+                this.imgFondo =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url === undefined ?  'empty':  this.imgFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url;
+                this.imgFondo1 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url === undefined ?  'empty':  this.imgFondo1 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url;
+                this.imgFondo2 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url === undefined ?  'empty':  this.imgFondo2 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url;
+                this.imgFondo3 = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url === undefined ?  'empty':  this.imgFondo3 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url;
+              }
+                //VALIDAR SECCIONES SECUNDARIAS
+              if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal == undefined) {
+                //VALIDAR SI ES IMAGEN O VIDEO EL FONDO
+                if(response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== undefined){
+                  this.bgSecondary[j] = response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo;
+                  this.isImg = true;    
+                }
+                if(response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== undefined){
+                  this.bgSecondary[j] = response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo;
+                  this.isVdo = true;
+                }          
+              }
+            }
+          this.isLoaded = true;
           } else {
             continue;
           }
-
         }
       });
     },
@@ -283,28 +267,82 @@ export default {
       }
     }
   }
-  .ComponentBg {
+  .seccion_secu {
     height: 100vh;
     display: flex;
-    &_Container {
+    &_container {
       background-position: center;
       background-color: #2c2327;
-      &--lazyloaded {
-            opacity: 0.7;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 100vw;
-            position: absolute;
-            &video{
-                min-height: 100%;
-                min-width: 100%;
-                position: absolute;
-                top: 0;
-                bottom: 0;
-            }
+      display: flex;
+      align-items: center;
+      &__video {
+        min-height: 100%;
+        min-width: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+      &__imagen {
+        min-height: 100%;
+        min-width: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+      &__texto {
+        position: relative;
+        width: 50%;
+        display: flex;
+         margin: 0 10vw;
+        &--izquierda {
+            font-family: 'Ibarra Real Nova';
+            color: rgb(255, 255, 255);
+            line-height: 48px;
+            font-size: 1.87rem;
+        }
+      }
+      &__btn {
+         position: absolute;
+         right: 15vw;
+         cursor: pointer;
+         margin-top: 6em;
+        .btn_seccionsecu {
+          z-index: 1;
+          font-family: 'Libre Franklin', sans-serif;
+          font-weight: 800;
+          text-transform: uppercase;
+          font-size: 12px;
+          line-height: 24px;
+          border-radius: 10px;
+          letter-spacing: 1px;
+          border: transparent;
+          position: absolute;
+          bottom: 0;
+          color: rgb(255, 255, 255);
+          height: 115px;
+          padding: 40px 0 0 20px;
+          &__icono {
+            background-image: url('../assets/img//flecha-derecha.svg');
+            height: 40px;
+            width: 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: relative;
+            display: block;
+            transition: all .3s linear;
+          }
+        }
+        &:hover {
+          .btn_seccionsecu__icono {
+            transform: translateX(10em);
+          }
+        }
       }
     }
+  }
+  #fp-nav ul li a span,
+   .fp-slidesNav ul li a span {
+    background: white !important;
   }
 }
 </style>
