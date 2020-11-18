@@ -41,10 +41,12 @@
         <div v-else>
           <div class="ComponentBg">
             <div class="ComponentBg_Container">
-              <div class="ComponentBg_Container--lazyloaded" v-bind:style="{'background-image': 'url(' + img_vidFondo + ')' }">
-                {{ img_vidFondo }}
+              
+                <div class="ComponentBg_Container--lazyloaded" v-bind:style="{'background-image': 'url(' + bgSecondary[index] + ')' }"></div>
               </div>
-            </div>
+              
+                
+           
             <div class="TextWrapper">
               <h2
                 class="TextComponent TextComponent--left animated animated-slow fadeInUp"
@@ -92,7 +94,9 @@ export default {
       imgFondo1: "",
       imgFondo2: "",
       imgFondo3: "",
-      img_vidFondo: "",
+      isImg: false,
+      isVdo: false,
+      bgSecondary: [],
       options: {
         licenseKey: "4%2M$#W?x0",
         navigation: true,
@@ -121,29 +125,36 @@ export default {
       let url2Col = process.env.API + "/exposicines";
       axios.get(url2Col).then((response) => {
         for (let i = 0; i < response.data.paginasExposiciones.length; i++) {
+
+          //VALIDAR LA RUTA CON LA PÁGINA
           if (response.data.paginasExposiciones[i].nombrePagina === nombreRuta) {
-            this.mainData = response.data.paginasExposiciones[i].agregarSeccion;
-            console.log(
-              response.data.paginasExposiciones[i].agregarSeccion[i]
-                .seccionPrincipal
-            );
-            console.log("index",i);
-            for (let j = 0; j < response.data.paginasExposiciones[i].agregarSeccion.length; j++) {
-              if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal) {
-              this.imgFondo =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url === undefined ?  'empty':  this.imgFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url;
-              this.imgFondo1 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url === undefined ?  'empty':  this.imgFondo1 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url;
-              this.imgFondo2 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url === undefined ?  'empty':  this.imgFondo2 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url;
-              this.imgFondo3 = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url === undefined ?  'empty':  this.imgFondo3 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url;
-            }
-            if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal == undefined) {
-               // this.img_vidFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagen_videoFondo.url;
-              // this.img_vidFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagen_videoFondo;
-               this.img_vidFondo = response.data.paginasExposiciones[i].agregarSeccion[j].imagen_videoFondo === undefined ?  'empty':  this.img_vidFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagen_videoFondo.url;
-               console.log(this.img_vidFondo.split('.'));
-            }
-            }
-    
-            this.isLoaded = true;
+                  this.mainData = response.data.paginasExposiciones[i].agregarSeccion;
+
+                  console.log( response.data.paginasExposiciones[i].agregarSeccion[i].seccionPrincipal );
+                  console.log("index",i);
+                  //SECCIONES
+                  for (let j = 0; j < response.data.paginasExposiciones[i].agregarSeccion.length; j++) {
+                    //VALIDAR SECCION PRINCIPAL
+                          if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal) {
+                          this.imgFondo =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url === undefined ?  'empty':  this.imgFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url;
+                          this.imgFondo1 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url === undefined ?  'empty':  this.imgFondo1 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url;
+                          this.imgFondo2 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url === undefined ?  'empty':  this.imgFondo2 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url;
+                          this.imgFondo3 = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url === undefined ?  'empty':  this.imgFondo3 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url;
+                        }
+                        //VALIDAR SECCIONES SECUNDARIAS
+                                if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal == undefined) {
+                                  //VALIDAR SI ES IMAGEN O VIDEO EL FONDO
+                                          if(response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== undefined){
+                                            this.bgSecondary[j] = this.apiUrl+response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo.url;
+                                            this.isImg = true;
+                                          }else if(response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== undefined){
+                                            this.bgSecondary[j] = this.apiUrl+response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo.url;
+                                            this.isVdo = true;
+                                          }          
+                                }
+                        }
+          
+                  this.isLoaded = true;
           } else {
             continue;
           }
@@ -253,10 +264,20 @@ export default {
     }
   }
   .ComponentBg {
+    height: 100vh;
+    display: flex;
     &_Container {
       background-position: center;
+      background-color: #2c2327;
+      height: 100%;
+
       &--lazyloaded {
-        opacity: 1;
+        opacity: 0.7;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        position: absolute;
       }
     }
   }
