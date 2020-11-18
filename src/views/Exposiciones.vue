@@ -3,19 +3,19 @@
     <full-page :options="options" id="fullpage" v-if="isLoaded">
       <div v-for="(data, index) in mainData" :key="index" class="section" v-bind:id="'section'+index">
 
-        <div  v-if="data.seccionPrincipal" v-bind:id="{ '' : data.seccionPrincipal }">
+        <div  v-if="data.seccionPrincipal" >
           <div class="introduccion">  
-            <div id= text >
-                <h1>Caquetá</h1>
-                <p class="subtitle">Dando la vuelta al olvido</p>
+            <div id="text">
+                <h1>{{data.tituloSeccion}}</h1>
+                <p class="subtitle">{{data.subtituloSeccion}}</p>
             </div>
         </div>
-          <div class="caqueta">
+          <div id="page_Animation" class="caqueta">
             <div class="capa _1 " style="animation-duration:3s;animation-delay:0.5s;" v-bind:style="{ 'background-image': 'url('+imgFondo+')'}"></div>
-            <div class="capa _2 " style="animation-duration:3s;animation-delay:1s;"></div>
-            <div class="capa _3 " style="animation-duration:3s;animation-delay:1.5s;"></div>
-            <div class="capa _4 " style="animation-duration:3s;animation-delay:2s;"></div>
-            <div class="capa _5 " style="animation-duration:3s;animation-delay:3s;"></div>
+            <div class="capa _2 " style="animation-duration:3s;animation-delay:1s;"  v-bind:style="{ 'background-image': 'url('+imgFondo1+')'}"  ></div>
+            <div class="capa _3 " style="animation-duration:3s;animation-delay:1.5s;" v-bind:style="{ 'background-image': 'url('+imgFondo2+')'}" ></div>
+            <div class="capa _4 " style="animation-duration:3s;animation-delay:2s;" v-bind:style="{ 'background-image': 'url('+imgFondo3+')'}" ></div>
+            <div class="capa _5 " style="animation-duration:3s;animation-delay:3s;" v-bind:style="{ 'background-image': 'url('+imgFondo4+')'}" ></div>
           </div>
         </div>
 
@@ -115,10 +115,18 @@ export default {
     align-items: center;
     width: 100vw;
     height: 100vh;
+    .text{
+      padding: 3em;
+      h1{
+        font-size: 300;
+        color: #fff;
+        font-family: 'Ibarra Real Nova', serif;
+      }
+    }
 }  
     div#page_Animation {
       width: 100vw;
-      height: 100%;
+      height: 100vh;
       display: block;
       position: relative;
       display: flex;
