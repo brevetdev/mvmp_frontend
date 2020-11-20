@@ -1,5 +1,6 @@
 <template>
   <div class="expo_container">
+    <div v-if="false">
     <full-page :options="options" id="fullpage" v-if="isLoaded">
       <div v-for="(data, index) in mainData" :key="'main'+index" class="section" >
         <div v-if="data.seccionPrincipal" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
@@ -66,6 +67,39 @@
         </div>
       </div>
     </full-page>
+    </div>
+    <div v-if="true">
+    <full-page :options="options2" id="fullpage2" v-if="isLoaded">
+      <div v-for="(data, index) in lateralData" :key="'main'+index" class="section" >
+          <div class="seccion_lateral">
+            <div class="seccion_lateral_container">
+              <div v-if="data.videoFondo !== undefined && data.videoFondo !== null">
+                    <video class="seccion_lateral_container__video" loop  data-autoplay data-keepplaying>
+                          <!--  <source v-bind:src="apiUrl +bgSecondary[index].url" type="video/mp4"> -->
+                   </video>
+              </div>
+              <div class="seccion_lateral_container__imagen" v-if="data.imagenFondo !== undefined && data.imagenFondo !== null" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
+              </div>
+            <div class="seccion_lateral_container__texto">
+              <h2
+                class="seccion_lateral_container__texto--izquierda animated animated-slow fadeInUp"
+                style="animation-delay: 0.75s"
+              >
+                {{ data.descripcion }}
+              </h2>
+            </div>
+            <div class="seccion_lateral_container__btn">
+              <a class="btn_seccionsecu">
+                <i class="zmdi zmdi-play-circle btn_seccionsecu__icono"></i>
+                {{ data.botonTitulo }}
+              </a>
+            </div>
+           </div>
+          </div>
+        </div>
+  
+    </full-page>
+    </div>
   </div>
 </template>
 
@@ -89,6 +123,7 @@ export default {
     return {
       isLoaded: false,
       mainData: [],
+      lateralData: [],
       apiUrl: process.env.API,
       imgFondo: "",
       imgFondo1: "",
@@ -101,7 +136,15 @@ export default {
         licenseKey: "4%2M$#W?x0",
         navigation: true,
         controlArrows: true,
-        navigationPosition: 'right'
+        navigationPosition: 'right',
+        onLeave: function () {console.log("he dejado esta seccion")}
+      },
+      options2: {
+        licenseKey: "4%2M$#W?x0",
+        navigation: true,
+        controlArrows: true,
+        navigationPosition: 'right',
+        onLeave: function () {console.log("he dejado esta seccion")}
       },
     };
   },
@@ -119,8 +162,17 @@ export default {
           //VALIDAR LA RUTA CON LA PÁGINA
           if (response.data.paginasExposiciones[i].nombrePagina === nombreRuta) {
             this.mainData = response.data.paginasExposiciones[i].agregarSeccion;
+            
             //SECCIONES
             for (let j = 0; j < response.data.paginasExposiciones[i].agregarSeccion.length; j++) {
+              //VALIDAR SI LA SECCIÓN LATERAL ES NULL
+              if(response.data.paginasExposiciones[i].agregarSeccion[j].seccion_laterale !== null && response.data.paginasExposiciones[i].agregarSeccion[j].seccion_laterale !== undefined){
+                
+                this.lateralData = response.data.paginasExposiciones[i].agregarSeccion[j].seccion_laterale;
+                console.log(this.lateralData);
+
+              }
+              
             //VALIDAR SECCION PRINCIPAL
               if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal) {
                 this.imgFondo =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url === undefined ?  'empty':  this.imgFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url;
@@ -340,6 +392,80 @@ export default {
       }
     }
   }
+  .seccion_lateral {
+    height: 100vh;
+    display: flex;
+    &_container {
+      background-position: center;
+      background-color: #2c2327;
+      display: flex;
+      align-items: center;
+      &__video {
+        min-height: 100%;
+        min-width: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+      &__imagen {
+        min-height: 100%;
+        min-width: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+      &__texto {
+        position: relative;
+        width: 50%;
+        display: flex;
+         margin: 0 10vw;
+        &--izquierda {
+            font-family: 'Ibarra Real Nova';
+            color: rgb(255, 255, 255);
+            line-height: 48px;
+            font-size: 1.87rem;
+        }
+      }
+      &__btn {
+         position: absolute;
+         right: 15vw;
+         cursor: pointer;
+         margin-top: 6em;
+        .btn_seccionsecu {
+          z-index: 1;
+          font-family: 'Libre Franklin', sans-serif;
+          font-weight: 800;
+          text-transform: uppercase;
+          font-size: 12px;
+          line-height: 24px;
+          border-radius: 10px;
+          letter-spacing: 1px;
+          border: transparent;
+          position: absolute;
+          bottom: 0;
+          color: rgb(255, 255, 255);
+          height: 115px;
+          padding: 40px 0 0 20px;
+          &__icono {
+            background-image: url('../assets/img//flecha-derecha.svg');
+            height: 40px;
+            width: 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: relative;
+            display: block;
+            transition: all .3s linear;
+          }
+        }
+        &:hover {
+          .btn_seccionsecu__icono {
+            transform: translateX(10em);
+          }
+        }
+      }
+    }
+  }
+
   #fp-nav ul li a span,
    .fp-slidesNav ul li a span {
     background: white !important;
