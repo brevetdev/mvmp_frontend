@@ -69,10 +69,20 @@
     </full-page>
     </div>
     <div v-show="this.isshowLateral" >
-      
+      <div class="titleBtn">
+        <p>{{buttonTitle}}</p>        
+      </div>  
     <full-page :options="options" id="fpInterna" ref="fpInterna" v-if="iIsloaded">
-     <div v-for="(data, index) of buttonTitle" :key="'lateral'+index" class="section" >
-       {{data}}
+      <div v-for="(data, index) of lateralData" :key="'lateral'+index" class="section" >
+        <div class="seccion_lateral">
+          <div class="seccion_lateral_container">
+            <div class="seccion_lateral_container__texto">
+              {{data.descripcion}}
+            </div>
+            
+          </div>
+        </div>
+       
       </div>
     </full-page>
     </div>
@@ -108,7 +118,7 @@ export default {
       imgFondo1: "",
       imgFondo2: "",
       imgFondo3: "",
-      buttonTitle: {},
+      buttonTitle: [],
       bgSecondary: [],
       options: {
         licenseKey: "4%2M$#W?x0",
@@ -183,8 +193,8 @@ export default {
         if(this.mainData[index].seccion_laterale !== null && this.mainData[index].seccion_laterale !== undefined){
           if(this.mainData[index].id == this.idLateral) {
              this.lateralData = this.mainData[index].seccion_laterale.Internas;
-              this.buttonTitle = [ this.mainData[index].textoBoton, this.lateralData];
-              
+                this.buttonTitle = this.lateralData[index];
+                console.log(this.buttonTitle);
                 this.iIsloaded = true;
                 fullpage_api.destroy('#fullpage');
                 this.api = new fullpage(this.$refs.fpInterna, this.options2)
@@ -384,7 +394,17 @@ export default {
       }
     }
   }
-/*
+  .titleBtn{
+    position: fixed; 
+    top:0 ; 
+    left:0; 
+    padding: 1em;
+    width: auto; 
+    height: 100vh; 
+    z-index: 99;
+    background-color: burlywood;
+  }
+
   .seccion_lateral {
     height: 100vh;
     display: flex;
@@ -393,7 +413,19 @@ export default {
       background-color: #2c2327;
       display: flex;
       align-items: center;
-      &__video {
+      &__texto {
+      position: relative; 
+      width: 75%;
+      display: flex;
+      margin: 0 10vw;
+      font-family: 'Ibarra Real Nova';
+      color: #fff;
+      font-size: 1.3em;
+        
+      }
+    }
+  }
+ /*    &__video {
         min-height: 100%;
         min-width: 100%;
         position: absolute;
