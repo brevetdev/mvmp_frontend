@@ -1,7 +1,7 @@
 <template>
   <div class="expo_container">
-    <div v-if="false">
-    <full-page :options="options" id="fullpage" v-if="isLoaded">
+    <div v-show="!this.isshowLateral" >
+    <full-page :options="options" id="fullpage" ref="fullpage" v-if="isLoaded">
       <div v-for="(data, index) in mainData" :key="'main'+index" class="section" >
         <div v-if="data.seccionPrincipal" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
           <div class="exposicion_introduccion">
@@ -57,7 +57,7 @@
               </h2>
             </div>
             <div class="seccion_secu_container__btn">
-              <a class="btn_seccionsecu">
+              <a class="btn_seccionsecu" @click.prevent="cambiarVista(''+data.id+'')">
                 <i class="zmdi zmdi-play-circle btn_seccionsecu__icono"></i>
                 {{ data.textoBoton }}
               </a>
@@ -68,36 +68,12 @@
       </div>
     </full-page>
     </div>
-    <div v-if="true">
-    <full-page :options="options2" id="fullpage2" v-if="isLoaded">
-      <div v-for="(data, index) in lateralData" :key="'main'+index" class="section" >
-          <div class="seccion_lateral">
-            <div class="seccion_lateral_container">
-              <div v-if="data.videoFondo !== undefined && data.videoFondo !== null">
-                    <video class="seccion_lateral_container__video" loop  data-autoplay data-keepplaying>
-                          <!--  <source v-bind:src="apiUrl +bgSecondary[index].url" type="video/mp4"> -->
-                   </video>
-              </div>
-              <div class="seccion_lateral_container__imagen" v-if="data.imagenFondo !== undefined && data.imagenFondo !== null" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
-              </div>
-            <div class="seccion_lateral_container__texto">
-              <h2
-                class="seccion_lateral_container__texto--izquierda animated animated-slow fadeInUp"
-                style="animation-delay: 0.75s"
-              >
-                {{ data.descripcion }}
-              </h2>
-            </div>
-            <div class="seccion_lateral_container__btn">
-              <a class="btn_seccionsecu">
-                <i class="zmdi zmdi-play-circle btn_seccionsecu__icono"></i>
-                {{ data.botonTitulo }}
-              </a>
-            </div>
-           </div>
-          </div>
-        </div>
-  
+    <div v-show="this.isshowLateral" >
+      
+    <full-page :options="options" id="fpInterna" ref="fpInterna" v-if="iIsloaded">
+     <div v-for="(data, index) of buttonTitle" :key="'lateral'+index" class="section" >
+       {{data}}
+      </div>
     </full-page>
     </div>
   </div>
@@ -115,22 +91,24 @@ export default {
     next();
   },
   mounted() {
-    this.nameRoute = this.$route.params.nombre;
-    console.log(this.nameRoute);
+    this.nameRoute = this.$route.params.nombre;  
     this.traerInfo(this.nameRoute);
   },
   data() {
     return {
+      iIsloaded: false,
+      idLateral: 0,
       isLoaded: false,
+      isshowLateral: false,
       mainData: [],
+      api: undefined,
       lateralData: [],
       apiUrl: process.env.API,
       imgFondo: "",
       imgFondo1: "",
       imgFondo2: "",
       imgFondo3: "",
-      isImg: false,
-      isVdo: false,
+      buttonTitle: {},
       bgSecondary: [],
       options: {
         licenseKey: "4%2M$#W?x0",
@@ -165,13 +143,7 @@ export default {
             
             //SECCIONES
             for (let j = 0; j < response.data.paginasExposiciones[i].agregarSeccion.length; j++) {
-              //VALIDAR SI LA SECCIÓN LATERAL ES NULL
-              if(response.data.paginasExposiciones[i].agregarSeccion[j].seccion_laterale !== null && response.data.paginasExposiciones[i].agregarSeccion[j].seccion_laterale !== undefined){
-                
-                this.lateralData = response.data.paginasExposiciones[i].agregarSeccion[j].seccion_laterale;
-                console.log(this.lateralData);
-
-              }
+              console.log(response.data.paginasExposiciones[i]);
               
             //VALIDAR SECCION PRINCIPAL
               if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal) {
@@ -185,21 +157,41 @@ export default {
                 //VALIDAR SI ES IMAGEN O VIDEO EL FONDO
                 if(response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== undefined){
                   this.bgSecondary[j] = response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo;
-                  this.isImg = true;    
                 }
                 if(response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== undefined){
                   this.bgSecondary[j] = response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo;
-                  this.isVdo = true;
                 }          
               }
+         
             }
           this.isLoaded = true;
+          //this.buildFullpage("#fullpage");
           } else {
             continue;
           }
         }
       });
     },
+    buildFullpage(id) {
+      this.$refs.fullpage.init();
+    },
+    cambiarVista(id) {
+      this.idLateral = id;
+      this.isshowLateral = true;
+      for (let index = 0; index <  this.mainData.length; index++) {
+        //console.log("MAIN DATA",this.mainData);
+        if(this.mainData[index].seccion_laterale !== null && this.mainData[index].seccion_laterale !== undefined){
+          if(this.mainData[index].id == this.idLateral) {
+             this.lateralData = this.mainData[index].seccion_laterale.Internas;
+              this.buttonTitle = [ this.mainData[index].textoBoton, this.lateralData];
+              
+                this.iIsloaded = true;
+                fullpage_api.destroy('#fullpage');
+                this.api = new fullpage(this.$refs.fpInterna, this.options2)
+           } 
+         }
+      }
+    }
   },
 };
 </script>
@@ -392,6 +384,7 @@ export default {
       }
     }
   }
+/*
   .seccion_lateral {
     height: 100vh;
     display: flex;
@@ -465,7 +458,7 @@ export default {
       }
     }
   }
-
+*/
   #fp-nav ul li a span,
    .fp-slidesNav ul li a span {
     background: white !important;
