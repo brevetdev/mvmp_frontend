@@ -69,17 +69,26 @@
     </full-page>
     </div>
     <div v-show="this.isshowLateral" >
-      <div class="titleBtn">
-        <p>{{buttonTitle}}</p>        
-      </div>  
+      <a @click.prevent="cerrarbloque()"><i class="zmdi zmdi-play-circle lateralTitleIcon"></i></a>
+      <div class="titleBtn" >
+        <h2>{{buttonTitle}}</h2>        
+      </div> 
+      <div class="lateralTitleBg" v-bind:style="{'background-image': 'url(' +apiUrl+buttonTitleBg +')' }"></div>
     <full-page :options="options" id="fpInterna" ref="fpInterna" v-if="iIsloaded">
       <div v-for="(data, index) of lateralData" :key="'lateral'+index" class="section" >
-        <div class="seccion_lateral">
+        <div class="seccion_lateral interna">
           <div class="seccion_lateral_container">
             <div class="seccion_lateral_container__texto">
               {{data.descripcion}}
-            </div>
-            
+            </div> 
+                <div v-if="data.videofondo !== undefined && data.videofondo !== null" class="seccion_lateral_container__video">
+                    <video class="video_source" loop  data-autoplay data-keepplaying>
+                            <source v-bind:src="apiUrl +data.videofondo.url" type="video/mp4">
+                   </video>
+              </div>
+              <div class="seccion_lateral_container__imagen" v-if="data.imagenFondo !== undefined && data.imagenFondo !== null" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
+              </div>
+         
           </div>
         </div>
        
@@ -118,21 +127,24 @@ export default {
       imgFondo1: "",
       imgFondo2: "",
       imgFondo3: "",
-      buttonTitle: [],
+      buttonTitle: "",
+      buttonTitleBg: "",
       bgSecondary: [],
+      bgLateral: [],
+      apif: undefined,
       options: {
         licenseKey: "4%2M$#W?x0",
         navigation: true,
         controlArrows: true,
         navigationPosition: 'right',
-        onLeave: function () {console.log("he dejado esta seccion")}
+        onLeave: function () {}
       },
       options2: {
         licenseKey: "4%2M$#W?x0",
         navigation: true,
         controlArrows: true,
         navigationPosition: 'right',
-        onLeave: function () {console.log("he dejado esta seccion")}
+        onLeave: function () {}
       },
     };
   },
@@ -153,7 +165,7 @@ export default {
             
             //SECCIONES
             for (let j = 0; j < response.data.paginasExposiciones[i].agregarSeccion.length; j++) {
-              console.log(response.data.paginasExposiciones[i]);
+             // console.log(response.data.paginasExposiciones[i]);
               
             //VALIDAR SECCION PRINCIPAL
               if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal) {
@@ -185,6 +197,12 @@ export default {
     buildFullpage(id) {
       this.$refs.fullpage.init();
     },
+    cerrarbloque() {
+      console.log("entreeeeee");
+        this.isshowLateral = false;
+        fullpage_api.destroy('#fpInterna');
+        this.apif = new fullpage(this.$refs.fullpage, this.options);
+    },
     cambiarVista(id) {
       this.idLateral = id;
       this.isshowLateral = true;
@@ -193,11 +211,11 @@ export default {
         if(this.mainData[index].seccion_laterale !== null && this.mainData[index].seccion_laterale !== undefined){
           if(this.mainData[index].id == this.idLateral) {
              this.lateralData = this.mainData[index].seccion_laterale.Internas;
-                this.buttonTitle = this.lateralData[index];
-                console.log(this.buttonTitle);
+             this.buttonTitleBg = this.mainData[index].seccion_laterale.fondoTituto[0].url;
+                this.buttonTitle = this.mainData[index].seccion_laterale.botonTitulo;
                 this.iIsloaded = true;
                 fullpage_api.destroy('#fullpage');
-                this.api = new fullpage(this.$refs.fpInterna, this.options2)
+                this.api = new fullpage(this.$refs.fpInterna, this.options2);
            } 
          }
       }
@@ -394,30 +412,91 @@ export default {
       }
     }
   }
+  .lateralTitleIcon{
+    top: 1em;
+    left: 2.1em;
+    z-index: 2;
+    transform: rotate(180deg);
+    background-image: url('../assets/img//flecha-derecha.svg');
+            height: 40px;
+            width: 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+            display: block;
+            transition: all .3s linear;
+  }
   .titleBtn{
-    position: fixed; 
-    top:0 ; 
-    left:0; 
-    padding: 1em;
-    width: auto; 
-    height: 100vh; 
-    z-index: 99;
-    background-color: burlywood;
+    
+          position: absolute;
+          -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+          color: #fff;
+          left: -180px;
+          height: auto;
+          width: 450px;
+          top: 40%;
+          z-index: 2;
+     h2{
+                font-size: 13px;
+                font-family: 'Libre Franklin', sans-serif;
+                text-transform: uppercase;
+                font-weight: 700;
+                letter-spacing: 1px;
+     }
+  }
+  .lateralTitleBg{
+        position: absolute;
+        width: 97px;
+        display: inline-block;
+        height: 100vh;
+        top: 0;
+        background-size: cover;
+        z-index: 1;
   }
 
   .seccion_lateral {
     height: 100vh;
     display: flex;
+    &.interna {
+      .seccion_lateral_container {
+        &__video {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: 0;
+            top: 0;
+            .video_source {
+              width: 100%;
+            }
+        } 
+        &__imagen {
+          background-image: url(http://localhost:1337/uploads/museo_flip_caqueta_tira2_01_aa0f6bb56a.jpg);
+          background-size: cover;
+          height: 100%;
+          width: 100%;
+          position: absolute;
+        }
+        &__texto {
+          z-index: 7;
+          font-family: 'Ibarra Real Nova';
+          b, strong, em {
+              font-family: 'Libre Franklin', sans-serif;
+              text-transform: uppercase;
+          }
+        }
+      }
+    }
     &_container {
       background-position: center;
       background-color: #2c2327;
       display: flex;
       align-items: center;
       &__texto {
+        
       position: relative; 
-      width: 75%;
-      display: flex;
-      margin: 0 10vw;
+      width: 65%;
+      margin: 0 auto;
       font-family: 'Ibarra Real Nova';
       color: #fff;
       font-size: 1.3em;
