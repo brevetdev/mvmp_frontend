@@ -1,6 +1,7 @@
 <template>
   <div class="expo_container">
-    <full-page :options="options" id="fullpage" v-if="isLoaded">
+    <div v-show="!this.isshowLateral" >
+    <full-page :options="options" id="fullpage" ref="fullpage" v-if="isLoaded">
       <div v-for="(data, index) in mainData" :key="'main'+index" class="section" >
         <div v-if="data.seccionPrincipal" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
           <div class="exposicion_introduccion">
@@ -56,7 +57,7 @@
               </h2>
             </div>
             <div class="seccion_secu_container__btn">
-              <a class="btn_seccionsecu">
+              <a class="btn_seccionsecu" @click.prevent="cambiarVista(''+data.id+'')">
                 <i class="zmdi zmdi-play-circle btn_seccionsecu__icono"></i>
                 {{ data.textoBoton }}
               </a>
@@ -66,6 +67,34 @@
         </div>
       </div>
     </full-page>
+    </div>
+    <div v-show="this.isshowLateral" >
+      <a @click.prevent="cerrarbloque()"><i class="zmdi zmdi-play-circle lateralTitleIcon"></i></a>
+      <div class="titleBtn" >
+        <h2>{{buttonTitle}}</h2>        
+      </div> 
+      <div class="lateralTitleBg" v-bind:style="{'background-image': 'url(' +apiUrl+buttonTitleBg +')' }"></div>
+    <full-page :options="options" id="fpInterna" ref="fpInterna" v-if="iIsloaded">
+      <div v-for="(data, index) of lateralData" :key="'lateral'+index" class="section" >
+        <div class="seccion_lateral interna">
+          <div class="seccion_lateral_container">
+            <div class="seccion_lateral_container__texto">
+              {{data.descripcion}}
+            </div> 
+                <div v-if="data.videofondo !== undefined && data.videofondo !== null" class="seccion_lateral_container__video">
+                    <video class="video_source" loop  data-autoplay data-keepplaying>
+                            <source v-bind:src="apiUrl +data.videofondo.url" type="video/mp4">
+                   </video>
+              </div>
+              <div class="seccion_lateral_container__imagen" v-if="data.imagenFondo !== undefined && data.imagenFondo !== null" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
+              </div>
+         
+          </div>
+        </div>
+       
+      </div>
+    </full-page>
+    </div>
   </div>
 </template>
 
@@ -81,27 +110,41 @@ export default {
     next();
   },
   mounted() {
-    this.nameRoute = this.$route.params.nombre;
-    console.log(this.nameRoute);
+    this.nameRoute = this.$route.params.nombre;  
     this.traerInfo(this.nameRoute);
   },
   data() {
     return {
+      iIsloaded: false,
+      idLateral: 0,
       isLoaded: false,
+      isshowLateral: false,
       mainData: [],
+      api: undefined,
+      lateralData: [],
       apiUrl: process.env.API,
       imgFondo: "",
       imgFondo1: "",
       imgFondo2: "",
       imgFondo3: "",
-      isImg: false,
-      isVdo: false,
+      buttonTitle: "",
+      buttonTitleBg: "",
       bgSecondary: [],
+      bgLateral: [],
+      apif: undefined,
       options: {
         licenseKey: "4%2M$#W?x0",
         navigation: true,
         controlArrows: true,
-        navigationPosition: 'right'
+        navigationPosition: 'right',
+        onLeave: function () {}
+      },
+      options2: {
+        licenseKey: "4%2M$#W?x0",
+        navigation: true,
+        controlArrows: true,
+        navigationPosition: 'right',
+        onLeave: function () {}
       },
     };
   },
@@ -119,8 +162,11 @@ export default {
           //VALIDAR LA RUTA CON LA PÁGINA
           if (response.data.paginasExposiciones[i].nombrePagina === nombreRuta) {
             this.mainData = response.data.paginasExposiciones[i].agregarSeccion;
+            
             //SECCIONES
             for (let j = 0; j < response.data.paginasExposiciones[i].agregarSeccion.length; j++) {
+             // console.log(response.data.paginasExposiciones[i]);
+              
             //VALIDAR SECCION PRINCIPAL
               if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal) {
                 this.imgFondo =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url === undefined ?  'empty':  this.imgFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url;
@@ -133,21 +179,47 @@ export default {
                 //VALIDAR SI ES IMAGEN O VIDEO EL FONDO
                 if(response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo !== undefined){
                   this.bgSecondary[j] = response.data.paginasExposiciones[i].agregarSeccion[j].imagenFondo;
-                  this.isImg = true;    
                 }
                 if(response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== null && response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo !== undefined){
                   this.bgSecondary[j] = response.data.paginasExposiciones[i].agregarSeccion[j].videoFondo;
-                  this.isVdo = true;
                 }          
               }
+         
             }
           this.isLoaded = true;
+          //this.buildFullpage("#fullpage");
           } else {
             continue;
           }
         }
       });
     },
+    buildFullpage(id) {
+      this.$refs.fullpage.init();
+    },
+    cerrarbloque() {
+      console.log("entreeeeee");
+        this.isshowLateral = false;
+        fullpage_api.destroy('#fpInterna');
+        this.apif = new fullpage('#fullpage', this.options);
+    },
+    cambiarVista(id) {
+      this.idLateral = id;
+      this.isshowLateral = true;
+      for (let index = 0; index <  this.mainData.length; index++) {
+        //console.log("MAIN DATA",this.mainData);
+        if(this.mainData[index].seccion_laterale !== null && this.mainData[index].seccion_laterale !== undefined){
+          if(this.mainData[index].id == this.idLateral) {
+             this.lateralData = this.mainData[index].seccion_laterale.Internas;
+             this.buttonTitleBg = this.mainData[index].seccion_laterale.fondoTituto[0].url;
+                this.buttonTitle = this.mainData[index].seccion_laterale.botonTitulo;
+                this.iIsloaded = true;
+                fullpage_api.destroy('#fullpage');
+                this.api = new fullpage('#fpInterna', this.options2);
+           } 
+         }
+      }
+    }
   },
 };
 </script>
@@ -340,6 +412,164 @@ export default {
       }
     }
   }
+  .lateralTitleIcon{
+    top: 1em;
+    left: 2.1em;
+    z-index: 2;
+    transform: rotate(180deg);
+    background-image: url('../assets/img//flecha-derecha.svg');
+            height: 40px;
+            width: 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+            display: block;
+            transition: all .3s linear;
+  }
+  .titleBtn{
+    
+          position: absolute;
+          -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+          color: #fff;
+          left: -180px;
+          height: auto;
+          width: 450px;
+          top: 40%;
+          z-index: 2;
+     h2{
+                font-size: 13px;
+                font-family: 'Libre Franklin', sans-serif;
+                text-transform: uppercase;
+                font-weight: 700;
+                letter-spacing: 1px;
+     }
+  }
+  .lateralTitleBg{
+        position: absolute;
+        width: 97px;
+        display: inline-block;
+        height: 100vh;
+        top: 0;
+        background-size: cover;
+        z-index: 1;
+  }
+
+  .seccion_lateral {
+    height: 100vh;
+    display: flex;
+    &.interna {
+      .seccion_lateral_container {
+        &__video {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: 0;
+            top: 0;
+            .video_source {
+              width: 100%;
+            }
+        } 
+        &__imagen {
+          background-image: url(http://localhost:1337/uploads/museo_flip_caqueta_tira2_01_aa0f6bb56a.jpg);
+          background-size: cover;
+          height: 100%;
+          width: 100%;
+          position: absolute;
+        }
+        &__texto {
+          z-index: 7;
+          font-family: 'Ibarra Real Nova';
+          b, strong, em {
+              font-family: 'Libre Franklin', sans-serif;
+              text-transform: uppercase;
+          }
+        }
+      }
+    }
+    &_container {
+      background-position: center;
+      background-color: #2c2327;
+      display: flex;
+      align-items: center;
+      &__texto {
+        
+      position: relative; 
+      width: 65%;
+      margin: 0 auto;
+      font-family: 'Ibarra Real Nova';
+      color: #fff;
+      font-size: 1.3em;
+        
+      }
+    }
+  }
+ /*    &__video {
+        min-height: 100%;
+        min-width: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+      &__imagen {
+        min-height: 100%;
+        min-width: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+      &__texto {
+        position: relative;
+        width: 50%;
+        display: flex;
+         margin: 0 10vw;
+        &--izquierda {
+            font-family: 'Ibarra Real Nova';
+            color: rgb(255, 255, 255);
+            line-height: 48px;
+            font-size: 1.87rem;
+        }
+      }
+      &__btn {
+         position: absolute;
+         right: 15vw;
+         cursor: pointer;
+         margin-top: 6em;
+        .btn_seccionsecu {
+          z-index: 1;
+          font-family: 'Libre Franklin', sans-serif;
+          font-weight: 800;
+          text-transform: uppercase;
+          font-size: 12px;
+          line-height: 24px;
+          border-radius: 10px;
+          letter-spacing: 1px;
+          border: transparent;
+          position: absolute;
+          bottom: 0;
+          color: rgb(255, 255, 255);
+          height: 115px;
+          padding: 40px 0 0 20px;
+          &__icono {
+            background-image: url('../assets/img//flecha-derecha.svg');
+            height: 40px;
+            width: 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: relative;
+            display: block;
+            transition: all .3s linear;
+          }
+        }
+        &:hover {
+          .btn_seccionsecu__icono {
+            transform: translateX(10em);
+          }
+        }
+      }
+    }
+  }
+*/
   #fp-nav ul li a span,
    .fp-slidesNav ul li a span {
     background: white !important;
