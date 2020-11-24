@@ -201,7 +201,7 @@ export default {
       console.log("entreeeeee");
         this.isshowLateral = false;
         fullpage_api.destroy('#fpInterna');
-        this.apif = new fullpage(this.$refs.fullpage, this.options);
+        this.apif = new fullpage('#fullpage', this.options);
     },
     cambiarVista(id) {
       this.idLateral = id;
@@ -215,7 +215,7 @@ export default {
                 this.buttonTitle = this.mainData[index].seccion_laterale.botonTitulo;
                 this.iIsloaded = true;
                 fullpage_api.destroy('#fullpage');
-                this.api = new fullpage(this.$refs.fpInterna, this.options2);
+                this.api = new fullpage('#fpInterna', this.options2);
            } 
          }
       }
