@@ -1,6 +1,6 @@
 <template>
   <div class="expo_container">
-    <div v-show="!this.isshowLateral" >
+    <div >
     <full-page :options="options" id="fullpage" ref="fullpage" v-if="isLoaded">
       <div v-for="(data, index) in mainData" :key="'main'+index" class="section" >
         <div v-if="data.seccionPrincipal" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
@@ -68,7 +68,7 @@
       </div>
     </full-page>
     </div>
-    <div v-show="this.isshowLateral" >
+    <div v-bind:class="{ active: this.isshowLateral }" class="container__lateral">
       <a @click.prevent="cerrarbloque()"><i class="zmdi zmdi-play-circle lateralTitleIcon"></i></a>
       <div class="titleBtn" >
         <h2>{{buttonTitle}}</h2>        
@@ -435,7 +435,7 @@ export default {
           left: -180px;
           height: auto;
           width: 450px;
-          top: 40%;
+          top: 32vh;
           z-index: 2;
      h2{
                 font-size: 13px;
@@ -454,7 +454,20 @@ export default {
         background-size: cover;
         z-index: 1;
   }
-
+  .container__lateral {
+    position: fixed;
+    top: 0;
+    z-index: 9;
+    right: -100vw ;
+    width: 100%;
+    height: 100%;
+    transition-property: position;
+    -webkit-transition: 1s;
+    transition: 1s;
+    &.active {
+     right: 0vw ;
+    }
+  }
   .seccion_lateral {
     height: 100vh;
     display: flex;
