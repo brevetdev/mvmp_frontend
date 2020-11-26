@@ -13,7 +13,7 @@ export default new Router({
         },
         {
             path: '/home',
-            name:'HomeView',
+            name: 'HomeView',
             component: HomeView
         },
         {
