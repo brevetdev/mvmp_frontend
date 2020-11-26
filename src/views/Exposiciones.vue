@@ -1,6 +1,10 @@
 <template>
   <div class="expo_container">
-    <div >
+    <div class="overlay_inlateral" v-show="this.isshowLateral">
+      <div class="image_overlayl" v-if="overlayimagen" v-bind:style="{'background-image': 'url(' + this.overlayrecursoUrl +')' }" ></div>
+      <video v-if="!overlayimagen" v-bind:src="this.overlayrecursoUrl"></video>
+    </div>
+    <div class="seccion_principal__container" v-show="!this.isshowLateral">
     <full-page :options="options" id="fullpage" ref="fullpage" v-if="isLoaded">
       <div v-for="(data, index) in mainData" :key="'main'+index" class="section" >
         <div v-if="data.seccionPrincipal" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
@@ -57,7 +61,7 @@
               </h2>
             </div>
             <div class="seccion_secu_container__btn">
-              <a class="btn_seccionsecu" @click.prevent="cambiarVista(''+data.id+'')">
+              <a class="btn_seccionsecu" @click.prevent="cambiarVista(data.id, index)">
                 <i class="zmdi zmdi-play-circle btn_seccionsecu__icono"></i>
                 {{ data.textoBoton }}
               </a>
@@ -115,11 +119,14 @@ export default {
   },
   data() {
     return {
+      overlayimagen: false,
+      overlayrecursoUrl: '',
       iIsloaded: false,
       idLateral: 0,
       isLoaded: false,
       isshowLateral: false,
       mainData: [],
+      seccionActual: 0,
       api: undefined,
       lateralData: [],
       apiUrl: process.env.API,
@@ -198,12 +205,23 @@ export default {
       this.$refs.fullpage.init();
     },
     cerrarbloque() {
-      console.log("entreeeeee");
         this.isshowLateral = false;
         fullpage_api.destroy('#fpInterna');
         this.apif = new fullpage('#fullpage', this.options);
+        this.seccionActual++;
+        setTimeout(()=> {fullpage_api.silentMoveTo(this.seccionActual);}, 200)
+        
     },
-    cambiarVista(id) {
+    cambiarVista(id, seccion) {
+      this.seccionActual = seccion;
+      if(this.mainData[seccion]["videoFondo"] !== undefined && this.mainData[seccion]["videoFondo"] !== null) {
+        this.overlayimagen = false;
+        this.overlayrecursoUrl = this.apiUrl+this.mainData[seccion].videoFondo.url;
+      }
+      if(this.mainData[seccion]["imagenFondo"] !== undefined && this.mainData[seccion]["imagenFondo"] !== null) {
+        this.overlayimagen = true;
+        this.overlayrecursoUrl = this.apiUrl+this.mainData[seccion].imagenFondo.url;
+      }
       this.idLateral = id;
       this.isshowLateral = true;
       for (let index = 0; index <  this.mainData.length; index++) {
@@ -481,6 +499,7 @@ export default {
             top: 0;
             .video_source {
               width: 100%;
+              background-size: cover;
             }
         } 
         &__imagen {
@@ -517,73 +536,19 @@ export default {
       }
     }
   }
- /*    &__video {
-        min-height: 100%;
-        min-width: 100%;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-      }
-      &__imagen {
-        min-height: 100%;
-        min-width: 100%;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-      }
-      &__texto {
-        position: relative;
-        width: 50%;
-        display: flex;
-         margin: 0 10vw;
-        &--izquierda {
-            font-family: 'Ibarra Real Nova';
-            color: rgb(255, 255, 255);
-            line-height: 48px;
-            font-size: 1.87rem;
-        }
-      }
-      &__btn {
-         position: absolute;
-         right: 15vw;
-         cursor: pointer;
-         margin-top: 6em;
-        .btn_seccionsecu {
-          z-index: 1;
-          font-family: 'Libre Franklin', sans-serif;
-          font-weight: 800;
-          text-transform: uppercase;
-          font-size: 12px;
-          line-height: 24px;
-          border-radius: 10px;
-          letter-spacing: 1px;
-          border: transparent;
+  .overlay_inlateral {
+    video {
           position: absolute;
-          bottom: 0;
-          color: rgb(255, 255, 255);
-          height: 115px;
-          padding: 40px 0 0 20px;
-          &__icono {
-            background-image: url('../assets/img//flecha-derecha.svg');
-            height: 40px;
-            width: 20px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            position: relative;
-            display: block;
-            transition: all .3s linear;
-          }
-        }
-        &:hover {
-          .btn_seccionsecu__icono {
-            transform: translateX(10em);
-          }
-        }
-      }
+          top: 0;
+          left: 0;
+          width: 100vw;
+    }
+    .image_overlayl {
+        width: 100vw;
+        height: 100vh;
     }
   }
-*/
-  #fp-nav ul li a span,
+   #fp-nav ul li a span,
    .fp-slidesNav ul li a span {
     background: white !important;
   }

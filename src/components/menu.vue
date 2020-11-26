@@ -1,23 +1,33 @@
 <template>
   <div id="menu">
-    <Slide width="350">
+    <Slide width="350" class="menu">
       <!--HOME-->
-      <router-link :to="`/home`">
-        <div class="logomenu_txt">MEMORIAS DEL PERIODISMO</div>
+      <router-link :to="`/home`" class="menu_link">
+        <div class="menu_link__principal">{{ this.dataMenu.tituloPrincipal}}</div>
       </router-link>
-      <!--DOS COLUMNAS-->
-      <div class="itemMenu" v-for="(data, index) in data2Col" :key="'2col'+index">
-        <router-link :to="`/paginas/${data.NombrePagina}`">
-         <span>  {{data.NombrePagina}}</span> 
-        </router-link>
-      </div>
 
-      <!--Exposiciones-->
-      <div class="bm-item-list"  v-for="(data, index) in  dataExpo" :key="'expo'+index">
-        <router-link :to="`/exposicion/${data.nombrePagina}`">
-          <span >  {{data.nombrePagina}}</span>
-        </router-link>
-      </div>
+      <!-- SECCION -->
+        <div class="menu_seccion"  v-bind:class="{ subitems : dataM['tituloSeccion'] != null &&  dataM['tituloSeccion'] != undefined}" v-for="(dataM, ind) in dataMenu.seccionesMenu" :key="ind">
+          <div class="sin_subitems" v-if="dataM['tituloSeccion'] == null && dataM['tituloSeccion'] == undefined">
+          <div  class="menu_seccion__items" v-for="(dataIn, indexI) in dataM.itemMenu" :key="indexI">
+                <router-link :to="`/paginas/${dataIn.urlItem}`" v-if="dataIn.tipoPagina === 'dosColumnas'">
+                <span>  {{dataIn.tituloItem}}</span> 
+                </router-link>  
+                <router-link :to="`/${dataIn.tipoPagina}/${dataIn.urlItem}`" v-if="dataIn.tipoPagina != 'dosColumnas'">
+                   <span>  {{dataIn.tituloItem}}</span>
+                </router-link>  
+                
+          </div>
+          </div>
+          <div class="menu_seccion__titulo" v-if="dataM['tituloSeccion'] !== null && dataM['tituloSeccion'] !== undefined">
+            <i class="menu_seccion__title">{{ dataM.tituloSeccion }}</i>
+              <div class="menu_seccion__items--derecha" v-for="(dataI, index) in dataM.itemMenu" :key="index">
+             <router-link :to="`/${dataI.tipoPagina}/${dataI.urlItem}`">
+                <span>  {{dataI.tituloItem}}</span> 
+                </router-link>   
+              </div>
+          </div> 
+        </div>
     </Slide>
   </div>
 </template>
@@ -38,11 +48,13 @@ export default {
   mounted() {
     this.traer2Col();
     this.traerExpo();
+    this.traerMenu();
   },
   data() {
     return {
       data2Col: [],
       dataExpo: [],
+      dataMenu: [],
       homeUrl: "home",
       flag: false,
     };
@@ -60,6 +72,13 @@ export default {
         this.dataExpo = response.data.paginasExposiciones;
       });
     },
+    traerMenu() {
+      let urlInicio = process.env.API + "/menu";
+      axios.get(urlInicio).then((response)=>{
+        this.dataMenu = response.data;
+        console.log("DATA DEL MENÚ---",response.data);
+      });
+    },
     isOn() {
       this.flag = true;
       console.log(this.flag);
@@ -75,6 +94,61 @@ export default {
   -webkit-font-smoothing: antialiased;
   text-align: center;
   margin-top: 60px;
+  .menu_link {
+    &__principal {
+      font-size: 32px;
+      color: rgb(0, 0, 0);
+      text-align: left;
+    }
+  }
+  .menu_seccion {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-left: 1em;
+    &__title {
+      font-family: 'Libre Franklin', sans-serif;
+      font-size: 14px;
+      color: #000000;
+      font-weight: 400;
+      margin-left: 1em;
+    }
+    &.subitems {
+      margin-left: 0;
+      padding-left: 0;
+      padding-top: 0;
+    }
+    .sin_subitems {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    &__items {
+      font-family: 'Ibarra Real Nova';
+      font-size: 21px;
+      font-weight: 100;
+      margin-left: -20px;
+      margin-bottom: .5em;
+      a {
+        text-decoration: none;
+      }
+      &--derecha {
+        display: flex;
+        width: 80%;
+        font-size: 12px;
+        justify-content: flex-start;
+        margin-left: auto;
+        text-align: left;
+        font-family: Arial, Helvetics, sans-serif;
+        font-size: 12px;
+        font-weight: bolder;
+        margin-top: 1em;
+        margin-bottom: 1em;
+      }
+    }
+  }
 
   .logomenu_txt {
     font-size: xx-large;
