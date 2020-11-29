@@ -13,12 +13,8 @@
         <img v-bind:src="(category.seccionImagen)?(apiUrl+category.seccionImagen[0].url):'/'" class="img-fluid" />
       </section>
       <section id="rellemo">
-<p>
-Holmes and Watson's investigations take them across London. Sherlock
-deduces that West was murdered elsewhere, then moved to Aldgate
-Station to create the illusion that he was crushed on the tracks by
+        <img src="../assets/img/exposicion-mapa.jpg" class="img-fluid"/>
 
-</p>
 </section>
     </div>
     <div id="map"></div>
@@ -179,6 +175,9 @@ opacity: 1;
 section:last-child {
 border-bottom: none;
 margin-bottom: 200px;
+}
+section#rellemo {
+    opacity: revert;
 }
 #nav.mapaMenu {
     padding: 0px;
