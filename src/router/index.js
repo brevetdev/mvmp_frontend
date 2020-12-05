@@ -4,6 +4,7 @@ import HomeView from '../views/Home.vue';
 import DosColum from '../views/DosColum.vue';
 import Exposicion from '../views/Exposiciones.vue';
 import Mapa from '../views/Mapa.vue';
+
 Vue.use(Router);
 export default new Router({
     routes: [
@@ -28,7 +29,7 @@ export default new Router({
             component: Exposicion
         },
         {
-            path: '/mapa/:nombre',
+            path: '/mapa/:mapa',
             name: 'Mapa',
             component: Mapa
         }
