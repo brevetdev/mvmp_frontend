@@ -1,0 +1,53 @@
+#map {
+    position: fixed;
+    width: 70%;
+    left: 30%;
+    top: 0px;
+    bottom: 0px;
+}
+
+#features {
+    width: 30%;
+    font-family: sans-serif;
+    overflow-y: scroll;
+    background-color: #fafafa;
+}
+
+section {
+    padding: 70px 50px;
+    line-height: 25px;
+    border-bottom: 1px solid #ddd;
+    opacity: 0.25;
+    font-size: 13px;
+}
+
+section.active {
+    opacity: 1;
+}
+
+section:last-child {
+    border-bottom: none;
+    margin-bottom: 200px;
+}
+
+section#rellemo {
+    opacity: revert;
+}
+
+#nav.mapaMenu {
+    padding: 0px;
+    position: relative;
+    left: 0;
+    transform: rotate(0deg);
+    margin-top: 10px;
+    z-index: 10;
+}
+
+section#rellemo p {
+    color: transparent;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}

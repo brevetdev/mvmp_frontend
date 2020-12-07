@@ -3,6 +3,8 @@ import Router from 'vue-router';
 import HomeView from '../views/Home.vue';
 import DosColum from '../views/DosColum.vue';
 import Exposicion from '../views/Exposiciones.vue';
+import Mapa from '../views/Mapa.vue';
+
 Vue.use(Router);
 export default new Router({
     routes: [
@@ -25,6 +27,11 @@ export default new Router({
             path: '/exposicion/:nombre',
             name: 'Exposicion',
             component: Exposicion
+        },
+        {
+            path: '/mapa/:mapa',
+            name: 'Mapa',
+            component: Mapa
         }
     ]
 });

@@ -1,0 +1,29 @@
+@import 'player';
+.plyr {
+    width: 50vw;
+}
+
+.plyr--audio .plyr__controls {
+    background: transparent;
+}
+
+#plList {
+    color: rgb(255, 255, 255);
+    margin-top: 30px;
+}
+
+#plList li {
+    list-style: none;
+    line-height: 30px;
+}
+
+.plyr--audio .plyr__control.plyr__tab-focus,
+.plyr--audio .plyr__control:hover,
+.plyr--audio .plyr__control[aria-expanded=true] {
+    background: rgb(255, 255, 255);
+    color: rgb(153, 17, 207);
+}
+
+.plyr--full-ui input[type=range] {
+    color: rgb(255, 255, 255);
+}

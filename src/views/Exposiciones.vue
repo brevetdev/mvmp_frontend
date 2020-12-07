@@ -82,17 +82,46 @@
       <div v-for="(data, index) of lateralData" :key="'lateral'+index" class="section" >
         <div class="seccion_lateral interna">
           <div class="seccion_lateral_container">
-            <div class="seccion_lateral_container__texto">
-              {{data.descripcion}}
-            </div> 
-                <div v-if="data.videofondo !== undefined && data.videofondo !== null" class="seccion_lateral_container__video">
+              <div class="seccion_lateral_container__texto" v-if="data.videoRecurso == undefined && data.videoRecurso == null ">
+                {{data.descripcion}}
+              </div> 
+              <div class="seccion_lateral_container__rvideo" v-if="data.videoRecurso !== undefined && data.videoRecurso !== null">
+                <vue-plyr ref="mivideo" class="audio_container__reproductor">
+                <video
+                  controls
+                  crossorigin
+                  playsinline
+                >
+                  <source
+                    v-bind:src="apiUrl + data.videoRecurso.url"
+                    type="video/mp4"
+                  />
+                </video>
+                </vue-plyr>
+              </div>
+              <div v-if="data.audios.length > 0" class="seccion_lateral_container__audio audio_container" >
+                <div v-for="(audiod, indexa) in data.audios" :key="indexa">
+                    <p class="seccion_lateral_container__leyenda">{{ audiod.descripcionAudio }}}</p>
+                    <vue-plyr ref="miaudio" class="audio_container__reproductor">
+                    <audio controls crossorigin playsinline >
+                      <source
+                          v-bind:src = "apiUrl + audiod.audio.url"
+                          type="audio/mp3"
+                      />
+                    </audio>
+                  </vue-plyr>
+                  </div> 
+              </div>
+              <div v-if="data.videofondo !== undefined && data.videofondo !== null" class="seccion_lateral_container__video">
                     <video class="video_source" loop  data-autoplay data-keepplaying>
-                            <source v-bind:src="apiUrl +data.videofondo.url" type="video/mp4">
+                            <source v-bind:src="apiUrl + data.videofondo.url" type="video/mp4">
                    </video>
               </div>
               <div class="seccion_lateral_container__imagen" v-if="data.imagenFondo !== undefined && data.imagenFondo !== null" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
               </div>
-         
+            <div class="seccion_lateral_container__texto" v-if="data.videoRecurso !== undefined && data.videoRecurso !== null ">
+                {{data.descripcion}}
+              </div> 
           </div>
         </div>
        
@@ -105,7 +134,6 @@
 <script>
 import axios from "axios";
 import VueFullPage from "vue-fullpage.js";
-
 export default {
   name: "Exposicion",
   //Ir a otra cargar otro componente dentro del mismo.
@@ -119,6 +147,7 @@ export default {
   },
   data() {
     return {
+      player: undefined,
       overlayimagen: false,
       overlayrecursoUrl: '',
       iIsloaded: false,
@@ -144,8 +173,13 @@ export default {
         navigation: true,
         controlArrows: true,
         navigationPosition: 'right',
-        onLeave: function () {}
-      },
+        onLeave: function() { 
+           document.querySelectorAll('video').forEach(function(node) {
+            node.pause(); 
+          });
+        }
+      }
+      ,
       options2: {
         licenseKey: "4%2M$#W?x0",
         navigation: true,
@@ -173,13 +207,12 @@ export default {
             //SECCIONES
             for (let j = 0; j < response.data.paginasExposiciones[i].agregarSeccion.length; j++) {
              // console.log(response.data.paginasExposiciones[i]);
-              
             //VALIDAR SECCION PRINCIPAL
               if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal) {
-                this.imgFondo =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url === undefined ?  'empty':  this.imgFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url;
-                this.imgFondo1 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url === undefined ?  'empty':  this.imgFondo1 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url;
-                this.imgFondo2 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url === undefined ?  'empty':  this.imgFondo2 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url;
-                this.imgFondo3 = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url === undefined ?  'empty':  this.imgFondo3 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url;
+                this.imgFondo =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url == undefined  || response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url == null ?  'empty':  this.imgFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url;
+                this.imgFondo1 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url == undefined || response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url == null  ?  'empty':  this.imgFondo1 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url;
+                this.imgFondo2 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url == undefined || response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url == null ?  'empty':  this.imgFondo2 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url;
+                this.imgFondo3 = response.data.paginasExposiciones[i].agregarSeccion[j]['imagenesRecurso_4'] == undefined  ||  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url == null ?  'empty':  this.imgFondo3 =  '' /* this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url */;
               }
                 //VALIDAR SECCIONES SECUNDARIAS
               if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal == undefined) {
@@ -214,6 +247,7 @@ export default {
     },
     cambiarVista(id, seccion) {
       this.seccionActual = seccion;
+      console.log(this.mainData[seccion]);
       if(this.mainData[seccion]["videoFondo"] !== undefined && this.mainData[seccion]["videoFondo"] !== null) {
         this.overlayimagen = false;
         this.overlayrecursoUrl = this.apiUrl+this.mainData[seccion].videoFondo.url;
@@ -234,323 +268,17 @@ export default {
                 this.iIsloaded = true;
                 fullpage_api.destroy('#fullpage');
                 this.api = new fullpage('#fpInterna', this.options2);
+                this.$refs.miaudio.player;
+                 this.$refs.mivdeo.player;
            } 
          }
       }
     }
-  },
+  }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-@import "../sass/main";
-.expo_container {
-  .introduccion {
-    display: flex;
-    position: absolute;
-    z-index: 1;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-    &.text {
-      padding: 3em;
-      h1 {
-        font-size: 300;
-        color: #fff;
-        font-family: "Ibarra Real Nova", serif;
-      }
-    }
-  }
-  .btn_exposicion--center {
-    position: absolute;
-    text-align: center;
-    top: 90vh;
-    z-index: 1;
-    width: 100%;
-    svg {
-      width: 20px;
-      margin-top: 20px;
-    }
-    a {
-      color: #fff;
-      font-family: "Libre Franklin", sans-serif;
-      font-weight: 800;
-      text-transform: uppercase;
-      text-decoration: none;
-      font-size: 12px;
-      text-align: center;
-      display: block;
-      margin: auto;
-      letter-spacing: 0.7px;
-      span {
-        display: block;
-      }
-    }
-    &::after {
-      color: #fff;
-      position: relative;
-    }
-  }
-  .page_animation {
-    width: 100vw;
-    height: 100vh;
-    display: block;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    flex-flow: column;
-    z-index: 0;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-      .page_animation {
-      &__capa {
-        background-position: bottom;
-        height: 100vh;
-        width: 100vw;
-        position: absolute;
-        z-index: 2;
-        &_1 {
-          background-position: center;
-          background-size: cover;
-          background-repeat: no-repeat;
-        }
-      }
-      }
-    
-  }
-  .exposicion_introduccion {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    z-index: 2;
-    .exposicion_texto {
-      margin-left: 15vw;
-      &__titulo {
-        font-family: 'Ibarra Real Nova', serif;
-        font-size: 5em;
-        color: rgb(255, 255, 255);
-        margin: 0px;
-      }
-      &__subtitulo {
-          font-family: 'Libre Franklin', sans-serif;
-          font-size: 3em;
-          color: rgb(255, 255, 255);
-          margin: 0.2em 0 0 0;
-      }
-    }
-  }
-  .texto_exposiciones {
-    &__parrafo {
-      p {
-        font-size: 1.87rem;
-        line-height: 48px;
-        left: 0;
-        margin-left: 100px;
-        padding-right: 250px;
-        z-index: 1;
-        margin-bottom: 0;
-        font-family: 'Ibarra Real Nova';
-      }
-    }
-  }
-  .seccion_secu {
-    height: 100vh;
-    display: flex;
-    &_container {
-      background-position: center;
-      background-color: #2c2327;
-      display: flex;
-      align-items: center;
-      &__video {
-        min-height: 100%;
-        min-width: 100%;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-      }
-      &__imagen {
-        min-height: 100%;
-        min-width: 100%;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-      }
-      &__texto {
-        position: relative;
-        width: 50%;
-        display: flex;
-         margin: 0 10vw;
-        &--izquierda {
-            font-family: 'Ibarra Real Nova';
-            color: rgb(255, 255, 255);
-            line-height: 48px;
-            font-size: 1.87rem;
-        }
-      }
-      &__btn {
-         position: absolute;
-         right: 15vw;
-         cursor: pointer;
-         margin-top: 6em;
-        .btn_seccionsecu {
-          z-index: 1;
-          font-family: 'Libre Franklin', sans-serif;
-          font-weight: 800;
-          text-transform: uppercase;
-          font-size: 12px;
-          line-height: 24px;
-          border-radius: 10px;
-          letter-spacing: 1px;
-          border: transparent;
-          position: absolute;
-          bottom: 0;
-          color: rgb(255, 255, 255);
-          height: 115px;
-          padding: 40px 0 0 20px;
-          &__icono {
-            background-image: url('../assets/img//flecha-derecha.svg');
-            height: 40px;
-            width: 20px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            position: relative;
-            display: block;
-            transition: all .3s linear;
-          }
-        }
-        &:hover {
-          .btn_seccionsecu__icono {
-            transform: translateX(10em);
-          }
-        }
-      }
-    }
-  }
-  .lateralTitleIcon{
-    top: 1em;
-    left: 2.1em;
-    z-index: 2;
-    transform: rotate(180deg);
-    background-image: url('../assets/img//flecha-derecha.svg');
-            height: 40px;
-            width: 20px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            position: absolute;
-            display: block;
-            transition: all .3s linear;
-  }
-  .titleBtn{
-    
-          position: absolute;
-          -webkit-transform: rotate(-90deg);
-          transform: rotate(-90deg);
-          color: #fff;
-          left: -180px;
-          height: auto;
-          width: 450px;
-          top: 32vh;
-          z-index: 2;
-     h2{
-                font-size: 13px;
-                font-family: 'Libre Franklin', sans-serif;
-                text-transform: uppercase;
-                font-weight: 700;
-                letter-spacing: 1px;
-     }
-  }
-  .lateralTitleBg{
-        position: absolute;
-        width: 97px;
-        display: inline-block;
-        height: 100vh;
-        top: 0;
-        background-size: cover;
-        z-index: 1;
-  }
-  .container__lateral {
-    position: fixed;
-    top: 0;
-    z-index: 9;
-    right: -100vw ;
-    width: 100%;
-    height: 100%;
-    transition-property: position;
-    -webkit-transition: 1s;
-    transition: 1s;
-    &.active {
-     right: 0vw ;
-    }
-  }
-  .seccion_lateral {
-    height: 100vh;
-    display: flex;
-    &.interna {
-      .seccion_lateral_container {
-        &__video {
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            left: 0;
-            top: 0;
-            .video_source {
-              width: 100%;
-              background-size: cover;
-            }
-        } 
-        &__imagen {
-          background-image: url(http://localhost:1337/uploads/museo_flip_caqueta_tira2_01_aa0f6bb56a.jpg);
-          background-size: cover;
-          height: 100%;
-          width: 100%;
-          position: absolute;
-        }
-        &__texto {
-          z-index: 7;
-          font-family: 'Ibarra Real Nova';
-          b, strong, em {
-              font-family: 'Libre Franklin', sans-serif;
-              text-transform: uppercase;
-          }
-        }
-      }
-    }
-    &_container {
-      background-position: center;
-      background-color: #2c2327;
-      display: flex;
-      align-items: center;
-      &__texto {
-        
-      position: relative; 
-      width: 65%;
-      margin: 0 auto;
-      font-family: 'Ibarra Real Nova';
-      color: #fff;
-      font-size: 1.3em;
-        
-      }
-    }
-  }
-  .overlay_inlateral {
-    video {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100vw;
-    }
-    .image_overlayl {
-        width: 100vw;
-        height: 100vh;
-    }
-  }
-   #fp-nav ul li a span,
-   .fp-slidesNav ul li a span {
-    background: white !important;
-  }
-}
+<!--        ESTILOS         -->
+<style lang="scss">
+  @import "../sass/main";
+  @import "../sass/layouts/exposiciones";
 </style>
