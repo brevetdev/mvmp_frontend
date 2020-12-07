@@ -1,0 +1,19 @@
+#fp-nav.fp-right,
+.fp-slidesNav {
+    height: 100%;
+    ul {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-around;
+        li {
+            a {
+                span {
+                    background-color: white;
+                    height: 5px;
+                    width: 5px;
+                }
+            }
+        }
+    }
+}

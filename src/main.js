@@ -5,9 +5,10 @@ import App from './App'
 import router from './router'
 import { Slide } from 'vue-burger-menu'
 import VueFullPage from 'vue-fullpage.js'
-
+import VuePlyr from 'vue-plyr'
 Vue.use(Slide)
 Vue.use(VueFullPage);
+Vue.use(VuePlyr);
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -1,7 +1,6 @@
 <template>
   <div class="contentmap">
     <div id="features">
-     
       <section
         v-bind:id="category.idseccion"
         v-bind:class="category.claseSeccion"
@@ -23,8 +22,6 @@
 <script src="./scripts/mapbox-gl.js"></script>
 <script>
 import axios from "axios";
-//import VueMapbox from "vue-mapbox";
-//import mapboxgl from "mapbox-gl";
 
 var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
 export default {
@@ -113,11 +110,8 @@ export default {
   },
   methods: {
     setActiveChapter: function(chapterName) {
-      debugger;
       if (chapterName === this._data.activeChapterName) return;
-
       this._data.map.flyTo(this._data.chapters[chapterName]);
-
       document.getElementById(chapterName).setAttribute("class", "active");
       document
         .getElementById(this._data.activeChapterName)
@@ -138,63 +132,8 @@ export default {
  
 };
 
-// On every scroll event, check which element is on screen
-
-/*********************************************/
-
 </script>
-
 <style lang="scss">
-
 @import '../css/mapbox-gl.css';
-
-#map {
-  position: fixed;
-  width: 70%;
-  left: 30%;
-  top: 0px;
-  bottom: 0px;
-}
-#features {
-  width: 30%;
-  font-family: sans-serif;
-  overflow-y: scroll;
-  background-color: #fafafa;
-  
-}
-section {
-padding: 70px 50px;
-line-height: 25px;
-border-bottom: 1px solid #ddd;
-opacity: 0.25;
-font-size: 13px;
-}
-section.active {
-opacity: 1;
-}
-section:last-child {
-border-bottom: none;
-margin-bottom: 200px;
-}
-section#rellemo {
-    opacity: revert;
-}
-#nav.mapaMenu {
-    padding: 0px;
-    position: relative;
-    left: 0;
-    transform: rotate(0deg);
-    margin-top: 10px;
-    z-index: 10;
-}
-
-section#rellemo p {
-    color: transparent;
-}
-
-.img-fluid {
-    max-width: 100%;
-    height: auto;
-}
+@import '../sass/layouts/mapa';
 </style>
-
