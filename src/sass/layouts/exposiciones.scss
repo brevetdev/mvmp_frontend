@@ -1,6 +1,15 @@
 @import '../components/audio';
 @import '../components/dottet_fullpage.scss';
 .expo_container {
+    .mainOverlay{
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        position: absolute;
+        background-color: rgba(44, 44, 44, 0.432);
+    }
     .introduccion {
         display: flex;
         position: absolute;
@@ -136,6 +145,7 @@
             &__texto {
                 position: relative;
                 width: 50%;
+                z-index: 3;
                 display: flex;
                 margin: 0 10vw;
                 &--izquierda {
@@ -195,6 +205,7 @@
         background-size: contain;
         background-repeat: no-repeat;
         position: absolute;
+        cursor: pointer;
         display: block;
         transition: all .3s linear;
     }
@@ -206,7 +217,8 @@
         left: -180px;
         height: auto;
         width: 450px;
-        top: 32vh;
+        text-align: center;
+        top: 44vh;
         z-index: 2;
         h2 {
             font-size: 13px;
@@ -246,15 +258,26 @@
             .seccion_lateral_container {
                 &__rvideo {
                     position: absolute;
-                    z-index: 999;
+                    z-index: 9;
+                    top: 5em;
+                    left: 27em;
                 }
                 &__audio {
                     position: absolute;
-                    z-index: 999;
-                    left: 15vw;
-                    .seccion_lateral_container__leyenda {}
+                    z-index: 9;
+                    left: 34vw;
+                    top: 13vh;
+                    .seccion_lateral_container__leyenda {
+                        color: #676063;
+                        font-size: 13px;
+                        font-family: 'Libre Franklin', sans-serif;
+                        text-transform: uppercase;
+                        font-weight: 700;
+                        letter-spacing: 1px;
+                    }
                     .audio_container {
-                        &__reproductor {}
+                        &__reproductor {
+                        }
                     }
                 }
                 &__video {
@@ -284,6 +307,9 @@
                         font-family: 'Libre Franklin', sans-serif;
                         text-transform: uppercase;
                     }
+                }
+                .video__texto{
+                    margin-top: 11em;
                 }
             }
         }

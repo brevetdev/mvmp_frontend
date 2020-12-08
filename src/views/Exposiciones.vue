@@ -7,6 +7,7 @@
     <div class="seccion_principal__container" v-show="!this.isshowLateral">
     <full-page :options="options" id="fullpage" ref="fullpage" v-if="isLoaded">
       <div v-for="(data, index) in mainData" :key="'main'+index" class="section" >
+        <div class="mainOverlay"></div>
         <div v-if="data.seccionPrincipal" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
           <div class="exposicion_introduccion">
             <div class="exposicion_texto animated animated-slow fadeInUp" style="animation-duration:3s;animation-delay:2s;">
@@ -79,8 +80,9 @@
       </div> 
       <div class="lateralTitleBg" v-bind:style="{'background-image': 'url(' +apiUrl+buttonTitleBg +')' }"></div>
     <full-page :options="options" id="fpInterna" ref="fpInterna" v-if="iIsloaded">
-      <div v-for="(data, index) of lateralData" :key="'lateral'+index" class="section" >
+      <div v-for="(data, index) of lateralData" :key="'lateral'+index" class="section" >        
         <div class="seccion_lateral interna">
+          <div class="mainOverlay"></div>
           <div class="seccion_lateral_container">
               <div class="seccion_lateral_container__texto" v-if="data.videoRecurso == undefined && data.videoRecurso == null ">
                 {{data.descripcion}}
@@ -101,7 +103,7 @@
               </div>
               <div v-if="data.audios.length > 0" class="seccion_lateral_container__audio audio_container" >
                 <div v-for="(audiod, indexa) in data.audios" :key="indexa">
-                    <p class="seccion_lateral_container__leyenda">{{ audiod.descripcionAudio }}}</p>
+                    <div v-html="parseoHtml(audiod.descripcionAudio) " class="html_render seccion_lateral_container__leyenda"></div>
                     <vue-plyr ref="miaudio" class="audio_container__reproductor">
                     <audio controls crossorigin playsinline >
                       <source
@@ -119,7 +121,7 @@
               </div>
               <div class="seccion_lateral_container__imagen" v-if="data.imagenFondo !== undefined && data.imagenFondo !== null" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
               </div>
-            <div class="seccion_lateral_container__texto" v-if="data.videoRecurso !== undefined && data.videoRecurso !== null ">
+            <div class="seccion_lateral_container__texto video__texto" v-if="data.videoRecurso !== undefined && data.videoRecurso !== null ">
                 {{data.descripcion}}
               </div> 
           </div>

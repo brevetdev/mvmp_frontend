@@ -16,7 +16,6 @@
                 <router-link :to="`/${dataIn.tipoPagina}/${dataIn.urlItem}`" v-if="dataIn.tipoPagina != 'dosColumnas'">
                    <span>  {{dataIn.tituloItem}}</span>
                 </router-link>  
-                
           </div>
           </div>
           <div class="menu_seccion__titulo" v-if="dataM['tituloSeccion'] !== null && dataM['tituloSeccion'] !== undefined">
@@ -93,7 +92,6 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-align: center;
-  margin-top: 60px;
   .menu_link {
     &__principal {
       font-size: 32px;
