@@ -6,9 +6,13 @@ import router from './router'
 import { Slide } from 'vue-burger-menu'
 import VueFullPage from 'vue-fullpage.js'
 import VuePlyr from 'vue-plyr'
-Vue.use(Slide)
+import Carousel3d from 'vue-carousel-3d';
+import { VueMasonryPlugin } from 'vue-masonry';
+Vue.use(VueMasonryPlugin);
+Vue.use(Slide);
 Vue.use(VueFullPage);
 Vue.use(VuePlyr);
+Vue.use(Carousel3d);
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

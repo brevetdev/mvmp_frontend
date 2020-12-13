@@ -1,9 +1,8 @@
-
 // M E D I A Q U E R I E S
 $phone:667px;
 $tablet:920px;
 $desktop:1024px;
-$desktopxl:1400px;
+$desktopxl:1600px;
 @mixin breakpoint($media) {
     @if $media==phone {
         @media (min-width: 320px) and (max-width: $phone) {
@@ -20,10 +19,10 @@ $desktopxl:1400px;
             @content;
         }
     }
-    @else if $media==desktopxl{
-      @media (min-width: $desktopxl + 1) {
-          @content;
-      }
+    @else if $media==desktopxl {
+        @media (min-width: $desktopxl + 1) {
+            @content;
+        }
     }
 }
 
