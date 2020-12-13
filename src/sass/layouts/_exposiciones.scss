@@ -246,6 +246,10 @@
         cursor: pointer;
         display: block;
         transition: all .3s linear;
+        @include breakpoint(phone){
+            z-index: 7;
+            left: 0.6em;
+        }
     }
     .titleBtn {
         position: absolute;
@@ -258,6 +262,9 @@
         text-align: center;
         top: 44vh;
         z-index: 2;
+        @include breakpoint(phone){
+            left: -205px;
+        }
         h2 {
             font-size: 13px;
             font-family: 'Libre Franklin', sans-serif;
@@ -274,6 +281,9 @@
         top: 0;
         background-size: cover;
         z-index: 1;
+        @include breakpoint(phone){
+            width: 41px;
+        }
     }
     .container__lateral {
         position: fixed;
@@ -341,6 +351,11 @@
                     z-index: 7;
                     text-align: center;
                     font-family: 'Ibarra Real Nova';
+                    @include breakpoint (phone){ 
+                        font-size: 1em;
+                        font-weight: 100;
+                         line-height: 19px;
+                     }
                     b,
                     strong,
                     em {
@@ -350,6 +365,12 @@
                 }
                 .video__texto{
                     margin-top: 11em;
+                    @include breakpoint(phone){
+                        margin-top: 0;
+                        font-size: 1em;
+                        font-weight: 100;
+                         line-height: 19px;
+                    }
                 }
             }
         }
