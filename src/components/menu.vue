@@ -11,11 +11,15 @@
           <div class="sin_subitems" v-if="dataM['tituloSeccion'] == null && dataM['tituloSeccion'] == undefined">
           <div  class="menu_seccion__items" v-for="(dataIn, indexI) in dataM.itemMenu" :key="indexI">
                 <router-link :to="`/paginas/${dataIn.urlItem}`" v-if="dataIn.tipoPagina === 'dosColumnas'">
-                <span>  {{dataIn.tituloItem}}</span> 
+                <span> {{dataIn.tituloItem}}</span> 
                 </router-link>  
-                <router-link :to="`/${dataIn.tipoPagina}/${dataIn.urlItem}`" v-if="dataIn.tipoPagina != 'dosColumnas'">
-                   <span>  {{dataIn.tituloItem}}</span>
+                <router-link :to="`/${dataIn.tipoPagina}/${dataIn.urlItem}`" v-if="dataIn.tipoPagina != 'dosColumnas' && dataIn.tipoPagina.toLowerCase() !== dataIn.urlItem.toLowerCase()">
+                   <span> {{dataIn.tituloItem}}</span>
                 </router-link>  
+                 <router-link :to="`/${dataIn.urlItem}`" v-if="dataIn.tipoPagina.toLowerCase() == dataIn.urlItem.toLowerCase()">
+                   <span> {{dataIn.tituloItem}}</span>
+                </router-link> 
+                
           </div>
           </div>
           <div class="menu_seccion__titulo" v-if="dataM['tituloSeccion'] !== null && dataM['tituloSeccion'] !== undefined">
@@ -174,13 +178,13 @@ export default {
   }
   /deep/ .bm-burger-button {
     position: fixed;
-    width: 36px;
-    height: 30px;
-    left: 36px;
-    top: 36px;
+    width: 28px;
+    height: 20px;
+    left: 13px;
+    top: 13px;
     cursor: pointer;
     @include breakpoint(phone) {
-      left: 21px;
+      left: 12px;
     }
   }
   /deep/.bm-burger-bars {

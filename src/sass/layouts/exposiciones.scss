@@ -32,6 +32,9 @@
         top: 90vh;
         z-index: 1;
         width: 100%;
+        @include breakpoint(phone){
+            top: 85vh;
+        }
         svg {
             width: 20px;
             margin-top: 20px;
@@ -90,19 +93,32 @@
         display: flex;
         align-items: center;
         z-index: 2;
+        
         .exposicion_texto {
             margin-left: 15vw;
+            @include breakpoint(phone){
+                margin-left: 8vw;
+            }
             &__titulo {
                 font-family: 'Ibarra Real Nova', serif;
                 font-size: 5em;
                 color: rgb(255, 255, 255);
                 margin: 0px;
+                 font-weight: 100;
+                @include breakpoint(phone){
+                    font-size: 3em;
+                }
             }
             &__subtitulo {
                 font-family: 'Libre Franklin', sans-serif;
                 font-size: 3em;
                 color: rgb(255, 255, 255);
                 margin: 0.2em 0 0 0;
+                @include breakpoint(phone){
+                    font-size: 1.4em;
+                    font-weight: 100;
+                    margin: 0.5em 0 0;
+                }
             }
         }
     }
@@ -147,12 +163,22 @@
                 width: 50%;
                 z-index: 3;
                 display: flex;
+                font-weight: 100;
                 margin: 0 10vw;
+                @include breakpoint(phone){
+                    width: 77%;
+                    margin-top: -7em;
+                }
                 &--izquierda {
                     font-family: 'Ibarra Real Nova';
                     color: rgb(255, 255, 255);
                     line-height: 48px;
                     font-size: 1.87rem;
+                    @include breakpoint(phone){
+                        font-size: 1em;
+                        font-weight: 100;
+                         line-height: 19px;
+                    }
                 }
             }
             &__btn {
@@ -160,6 +186,11 @@
                 right: 15vw;
                 cursor: pointer;
                 margin-top: 6em;
+                @include breakpoint(phone){
+                    right: 0; 
+                    left: 40vw;
+                    margin-top: 32em;
+                }
                 .btn_seccionsecu {
                     z-index: 1;
                     font-family: 'Libre Franklin', sans-serif;
@@ -175,6 +206,10 @@
                     color: rgb(255, 255, 255);
                     height: 115px;
                     padding: 40px 0 0 20px;
+                    @include breakpoint(phone){
+                      padding: 50px;
+                    }
+                   
                     &__icono {
                         background-image: url('../assets/img//flecha-derecha.svg');
                         height: 40px;
@@ -184,6 +219,9 @@
                         position: relative;
                         display: block;
                         transition: all .3s linear;
+                        @include breakpoint(phone){
+                            margin-left: -4em;
+                        }
                     }
                 }
                 &:hover {
@@ -277,6 +315,7 @@
                     }
                     .audio_container {
                         &__reproductor {
+
                         }
                     }
                 }
@@ -300,6 +339,7 @@
                 }
                 &__texto {
                     z-index: 7;
+                    text-align: center;
                     font-family: 'Ibarra Real Nova';
                     b,
                     strong,

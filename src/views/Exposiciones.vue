@@ -48,7 +48,7 @@
             <div class="seccion_secu_container">
               <div v-if="data.videoFondo !== undefined && data.videoFondo !== null">
                     <video class="seccion_secu_container__video" loop  data-autoplay data-keepplaying>
-                            <source v-bind:src="apiUrl +bgSecondary[index].url" type="video/mp4">
+                            <source v-bind:src="apiUrl + bgSecondary[index].url" type="video/mp4">
                    </video>
               </div>
               <div class="seccion_secu_container__imagen" v-if="data.imagenFondo !== undefined && data.imagenFondo !== null" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">

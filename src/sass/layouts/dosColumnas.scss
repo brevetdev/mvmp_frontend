@@ -11,7 +11,7 @@
         display: block;
     }
     @include breakpoint(tablet) {
-        display: block;
+        display: flex;
     }
     &__item {
         display: flex;
@@ -35,6 +35,10 @@
                 margin-left: 0;
                 padding: .5em;
             }
+            @include breakpoint(tablet){
+                width: 80%;
+                padding: 0;
+            }
             h1 {
                 font-family: "Libre Franklin", sans-serif;
                 text-transform: uppercase;
@@ -44,8 +48,7 @@
                 line-height: 1.6em;
                 color: #01b5f4;
                 @include breakpoint(tablet){
-                    width: 67vw;
-                    text-align: center;
+                    text-align: left;
 
                 }
             }
@@ -62,10 +65,8 @@
                 -webkit-background-clip: text;
                 color: transparent;
                 @include breakpoint(tablet){
-                    width: 67vw;
-                    text-align: justify;
-                    font-size: 1em;
-                    line-height: 4em;
+                    text-align: left;
+                    font-size: 14px;
                 }
             }
         }
@@ -85,10 +86,8 @@
                     font-weight: 600;
                     margin: 20px 0;
                     @include breakpoint(tablet){
-                        width: 67vw;
-                        text-align: center;
+                        text-align: left;
                         font-size: 1em;
-                        margin: .7em 4em;
                         line-height: 2em;
                     }
                 }
@@ -101,10 +100,8 @@
                     margin: 0;
                     color: #d1d1d1;
                     @include breakpoint(tablet){
-                        width: 67vw;
-                        text-align: justify;
+                        text-align: left;
                         font-size: 1em;
-                        margin: 0 4em;
                         line-height: 2em;
                     }
                 }
@@ -119,8 +116,7 @@
                         height: 38px;
                     }
                     @include breakpoint(tablet) {
-                        height: 40px;
-                        margin: 0 4em;
+                        margin: 0 1em;
                     }
                 }
             }
