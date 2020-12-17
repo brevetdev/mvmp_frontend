@@ -169,16 +169,16 @@ export default {
       altoPantalla: window.screen.height - 300,
       flagLoadArchivos: false,
       arrayOfObjects: [
-        { name: "ASDADAS", value: "SDS" },
-        { name: "ASDADA", value: "ASDADAD" },
+        { name: "2020", value: "2020" },
+        { name: "2021", value: "2021" },
       ],
       object: {
-        name: "Object Name",
-        value: "OTRO VALOR",
+        name: "MEMORIA",
+        value: "MEMORIA",
       },
       object: {
-        name: "Object Name",
-        value: "OTRO VALOR",
+        name: "CAQUETÁ",
+        value: "CORDOBA",
       },
     };
   },
