@@ -194,7 +194,6 @@ export default {
       this.showingFile = true;
     },
     closeInt() {
-      alert(this.actualScroll);
       let bodyEl = document.querySelector('body');
       bodyEl.style.overflow ="auto";
       window.scrollTo({top: this.actualScroll})
