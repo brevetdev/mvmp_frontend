@@ -10,7 +10,7 @@
     }
     
     .archivos__container {
-        background-color: $colorblack;
+        background-color: $interna-archivos;
         min-height: 100vh;
         height: auto;
         .archivos__titulo {
@@ -106,14 +106,16 @@
                             align-items: center;
                             padding: .2em;
                             padding-bottom: 2em;
+                            max-width: 320px;
+                            max-height: 900px;
                             img {
-                                max-width: 442px;
-                                max-height: 429px;
+                                max-width: 100%;
+                                max-height: auto;
                                 height: auto;
-                                width: auto;
                             }
                             &__cita {
                                 @extend %cita;
+                                padding: 0 .5em;
                             }
                         }
                         &__video {
@@ -122,7 +124,7 @@
                             flex-direction: column;
                             height: 320px;
                             clear: both;
-                            width: 20em;
+                            max-width: 320px;
                             .plyr__controls {
                                 display: none !important;
                             }
@@ -139,6 +141,7 @@
                             }
                             &__cita {
                                 @extend %cita;
+                                word-break: break-all;
                             }
                         }
                         &__audio {
@@ -147,6 +150,7 @@
                             align-items: center;
                             min-height: 341px;
                             justify-content: flex-end;
+                            max-width: 320px;
                             .plyr--audio {
                                 width: 100%;
                                 .plyr__progress__buffer {
@@ -209,9 +213,10 @@
                             }
                         }
                         &__blog {
-                            width: 310px;
+                            max-width: 320px;
                             height: auto;
                             padding: .5em;
+                            margin-bottom: 4em;
                             &__resumen {
                                 padding: 0;
                                 @extend %cita;
@@ -230,7 +235,60 @@
                                     background-color: grey;
                                 }
                             }
+                            &__articulo {
+                                @extend %cita;
+                            }
                         }
+                    }
+                }
+            }
+            &__interna {
+                width: 100vw;
+                height: 100vh;
+                background-color: $interna-archivos;
+                position: fixed;
+                top: 12vh;
+                left: 0;
+                z-index: 99;
+                @include breakpoint(desktopxl) {
+                    top: 9vh;
+                }
+                .container__interna {
+                    width: 1600px;
+                    @include breakpoint(desktopxl) {
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    @include breakpoint(desktop) {
+                        width: 1100px;
+                        margin: 0 auto;
+                    }
+                    .interna-item__imagen {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        img {
+                            max-height: 429px;
+                            max-width: 70vw;
+                            object-fit: cover;
+                        }
+                    }
+                    .interna-item__imagen__cita {
+                        font-family: 'Ibarra Real Nova', Arial, Helvetica, sans-serif;
+                        color: white;
+                        font-size: 22px;
+                    }
+                }
+                .archivos_interna__options {
+                    position: absolute;
+                    right: 5vw;
+                    img {
+                        height: 30px;
+                        width: 30px;
                     }
                 }
             }
