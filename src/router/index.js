@@ -4,7 +4,7 @@ import HomeView from '../views/Home.vue';
 import DosColum from '../views/DosColum.vue';
 import Exposicion from '../views/Exposiciones.vue';
 import Mapa from '../views/Mapa.vue';
-
+import Archivos from '../views/Archivos.vue';
 Vue.use(Router);
 export default new Router({
     routes: [
@@ -32,6 +32,11 @@ export default new Router({
             path: '/mapa/:mapa',
             name: 'Mapa',
             component: Mapa
+        },
+        {
+            path: '/Archivos',
+            name: 'Archivos',
+            component: Archivos
         }
     ]
 });

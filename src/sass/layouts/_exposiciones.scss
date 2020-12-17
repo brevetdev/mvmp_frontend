@@ -1,6 +1,15 @@
 @import '../components/audio';
 @import '../components/dottet_fullpage.scss';
 .expo_container {
+    .mainOverlay{
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        position: absolute;
+        background-color: rgba(44, 44, 44, 0.432);
+    }
     .introduccion {
         display: flex;
         position: absolute;
@@ -23,6 +32,9 @@
         top: 90vh;
         z-index: 1;
         width: 100%;
+        @include breakpoint(phone){
+            top: 85vh;
+        }
         svg {
             width: 20px;
             margin-top: 20px;
@@ -81,19 +93,32 @@
         display: flex;
         align-items: center;
         z-index: 2;
+        
         .exposicion_texto {
             margin-left: 15vw;
+            @include breakpoint(phone){
+                margin-left: 8vw;
+            }
             &__titulo {
                 font-family: 'Ibarra Real Nova', serif;
                 font-size: 5em;
                 color: rgb(255, 255, 255);
                 margin: 0px;
+                 font-weight: 100;
+                @include breakpoint(phone){
+                    font-size: 3em;
+                }
             }
             &__subtitulo {
                 font-family: 'Libre Franklin', sans-serif;
                 font-size: 3em;
                 color: rgb(255, 255, 255);
                 margin: 0.2em 0 0 0;
+                @include breakpoint(phone){
+                    font-size: 1.4em;
+                    font-weight: 100;
+                    margin: 0.5em 0 0;
+                }
             }
         }
     }
@@ -136,13 +161,24 @@
             &__texto {
                 position: relative;
                 width: 50%;
+                z-index: 3;
                 display: flex;
+                font-weight: 100;
                 margin: 0 10vw;
+                @include breakpoint(phone){
+                    width: 77%;
+                    margin-top: -7em;
+                }
                 &--izquierda {
                     font-family: 'Ibarra Real Nova';
                     color: rgb(255, 255, 255);
                     line-height: 48px;
                     font-size: 1.87rem;
+                    @include breakpoint(phone){
+                        font-size: 1em;
+                        font-weight: 100;
+                         line-height: 19px;
+                    }
                 }
             }
             &__btn {
@@ -150,6 +186,11 @@
                 right: 15vw;
                 cursor: pointer;
                 margin-top: 6em;
+                @include breakpoint(phone){
+                    right: 0; 
+                    left: 40vw;
+                    margin-top: 32em;
+                }
                 .btn_seccionsecu {
                     z-index: 1;
                     font-family: 'Libre Franklin', sans-serif;
@@ -165,6 +206,10 @@
                     color: rgb(255, 255, 255);
                     height: 115px;
                     padding: 40px 0 0 20px;
+                    @include breakpoint(phone){
+                      padding: 50px;
+                    }
+                   
                     &__icono {
                         background-image: url('../assets/img//flecha-derecha.svg');
                         height: 40px;
@@ -174,6 +219,9 @@
                         position: relative;
                         display: block;
                         transition: all .3s linear;
+                        @include breakpoint(phone){
+                            margin-left: -4em;
+                        }
                     }
                 }
                 &:hover {
@@ -195,8 +243,13 @@
         background-size: contain;
         background-repeat: no-repeat;
         position: absolute;
+        cursor: pointer;
         display: block;
         transition: all .3s linear;
+        @include breakpoint(phone){
+            z-index: 7;
+            left: 0.6em;
+        }
     }
     .titleBtn {
         position: absolute;
@@ -206,8 +259,12 @@
         left: -180px;
         height: auto;
         width: 450px;
-        top: 32vh;
+        text-align: center;
+        top: 44vh;
         z-index: 2;
+        @include breakpoint(phone){
+            left: -205px;
+        }
         h2 {
             font-size: 13px;
             font-family: 'Libre Franklin', sans-serif;
@@ -224,6 +281,9 @@
         top: 0;
         background-size: cover;
         z-index: 1;
+        @include breakpoint(phone){
+            width: 41px;
+        }
     }
     .container__lateral {
         position: fixed;
@@ -246,15 +306,27 @@
             .seccion_lateral_container {
                 &__rvideo {
                     position: absolute;
-                    z-index: 999;
+                    z-index: 9;
+                    top: 5em;
+                    left: 27em;
                 }
                 &__audio {
                     position: absolute;
-                    z-index: 999;
-                    left: 15vw;
-                    .seccion_lateral_container__leyenda {}
+                    z-index: 9;
+                    left: 34vw;
+                    top: 13vh;
+                    .seccion_lateral_container__leyenda {
+                        color: #676063;
+                        font-size: 13px;
+                        font-family: 'Libre Franklin', sans-serif;
+                        text-transform: uppercase;
+                        font-weight: 700;
+                        letter-spacing: 1px;
+                    }
                     .audio_container {
-                        &__reproductor {}
+                        &__reproductor {
+
+                        }
                     }
                 }
                 &__video {
@@ -277,12 +349,27 @@
                 }
                 &__texto {
                     z-index: 7;
+                    text-align: center;
                     font-family: 'Ibarra Real Nova';
+                    @include breakpoint (phone){ 
+                        font-size: 1em;
+                        font-weight: 100;
+                         line-height: 19px;
+                     }
                     b,
                     strong,
                     em {
                         font-family: 'Libre Franklin', sans-serif;
                         text-transform: uppercase;
+                    }
+                }
+                .video__texto{
+                    margin-top: 11em;
+                    @include breakpoint(phone){
+                        margin-top: 0;
+                        font-size: 1em;
+                        font-weight: 100;
+                         line-height: 19px;
                     }
                 }
             }
