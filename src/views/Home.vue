@@ -1,5 +1,5 @@
 <template>
-<div class="bckgr" style=" background-image: url('https://wallpaperaccess.com/full/747833.jpg') ">
+<div class="bckgr" style=" background-image: url('https://mvmp.s3.us-east-2.amazonaws.com/museo-flip-home-c-01.jpg') ">
 <!--<div class="bckgr" v-bind:style="{ 'background-image': 'url('+imgFondo+')' }">-->
   <!--<div v-html="msg"></div>-->
   <div id="overlay">
@@ -92,7 +92,7 @@ ul {
     padding-top: 3em;
     top: 0;
     bottom: 0;
-    background-color: rgba(43, 42, 42, 0.568);
+    /*background-color: rgba(43, 42, 42, 0.568);*/
     text-align: center;
      @include breakpoint(phone) {
       display: flex;
