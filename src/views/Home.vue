@@ -45,7 +45,7 @@ export default {
         axios.get(urlInicio).then(response => {     
           homeVue.dataTitulo = response.data.contenidoInicio;
           homeVue.imgFondo = this.apiUrl+response.data.imagenFondo.url;
-          homeVue.logo = this.apiUrl+response.data.logo.url;
+          homeVue.logo = response.data.logo.url;
           console.log(homeVue.logo);
       });
     }
