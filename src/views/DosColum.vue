@@ -11,9 +11,9 @@
       <div v-if="index == 1" class="doscolumn_container__item--derecha">
         <div v-html="parseoHtml(data.descripcion) " class="html_render"></div>
         <div v-if="data.imagenPaginaUno != null && data.imagenPaginaDos != null && data.imagenPaginaTres != null" class="container_images">
-          <img v-bind:src="apiUrl+data.imagenPaginaUno.url" class="container_images__logos">
-          <img v-bind:src="apiUrl+data.imagenPaginaDos.url" class="container_images__logos">
-          <img v-bind:src="apiUrl+data.imagenPaginaTres.url" class="container_images__logos">
+          <img v-bind:src="data.imagenPaginaUno.url" class="container_images__logos">
+          <img v-bind:src="data.imagenPaginaDos.url" class="container_images__logos">
+          <img v-bind:src="data.imagenPaginaTres.url" class="container_images__logos">
         </div>
         
       </div>
