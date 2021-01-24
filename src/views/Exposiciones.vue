@@ -211,9 +211,9 @@ export default {
              // console.log(response.data.paginasExposiciones[i]);
             //VALIDAR SECCION PRINCIPAL
               if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal) {
-                this.imgFondo =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url == undefined  || response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url == null ?  'empty':  this.imgFondo = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url;
-                this.imgFondo1 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url == undefined || response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url == null  ?  'empty':  this.imgFondo1 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url;
-                this.imgFondo2 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url == undefined || response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url == null ?  'empty':  this.imgFondo2 = this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url;
+                this.imgFondo =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url == undefined  || response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url == null ?  'empty':  this.imgFondo = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url;
+                this.imgFondo1 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url == undefined || response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url == null  ?  'empty':  this.imgFondo1 = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url;
+                this.imgFondo2 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url == undefined || response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url == null ?  'empty':  this.imgFondo2 = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url;
                 this.imgFondo3 = response.data.paginasExposiciones[i].agregarSeccion[j]['imagenesRecurso_4'] == undefined  ||  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url == null ?  'empty':  this.imgFondo3 =  '' /* this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url */;
               }
                 //VALIDAR SECCIONES SECUNDARIAS
@@ -252,11 +252,11 @@ export default {
       console.log(this.mainData[seccion]);
       if(this.mainData[seccion]["videoFondo"] !== undefined && this.mainData[seccion]["videoFondo"] !== null) {
         this.overlayimagen = false;
-        this.overlayrecursoUrl = this.apiUrl+this.mainData[seccion].videoFondo.url;
+        this.overlayrecursoUrl = this.mainData[seccion].videoFondo.url;
       }
       if(this.mainData[seccion]["imagenFondo"] !== undefined && this.mainData[seccion]["imagenFondo"] !== null) {
         this.overlayimagen = true;
-        this.overlayrecursoUrl = this.apiUrl+this.mainData[seccion].imagenFondo.url;
+        this.overlayrecursoUrl = this.mainData[seccion].imagenFondo.url;
       }
       this.idLateral = id;
       this.isshowLateral = true;
