@@ -9,9 +9,9 @@
       >
         <h2 class="subtitulosld">{{category.tituloSeccion}}</h2>
         <p class="subtitulosld">{{category.descripcionSeccion}}</p>
-        <img v-bind:src="(category.seccionImagen)?(apiUrl+category.seccionImagen[0].url):'/'" class="img-fluid" />
+        <img v-bind:src="(category.seccionImagen)?(category.seccionImagen[0].url):'/'" class="img-fluid" />
       </section>
-      <section id="rellemo">
+      <section id="relleno">
         <img src="../assets/img/exposicion-mapa.jpg" class="img-fluid"/>
 
 </section>
