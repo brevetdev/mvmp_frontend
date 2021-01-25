@@ -38,11 +38,11 @@
           </div>
           <div class="page_animation">
             <div class="page_animation__capa page_animation__capa_0 animated fadeIn" style="animation-duration: 3s; animation-delay: 0.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo + ')' }"></div>
-            <div class="page_animation__capa page_animation__capa_1 animated fadeInUp" style="animation-duration: 3s; animation-delay: 1s" v-bind:style="{ 'background-image': 'url(' + imgFondo1 + ')' }"></div>
-            <div class="page_animation__capa page_animation__capa_2 animated fadeInUp" style="animation-duration: 3s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo2 + ')' }" ></div>
+            <div class="page_animation__capa page_animation__capa_1 animated fadeInUp" style="animation-duration: 1s; animation-delay: 1s" v-bind:style="{ 'background-image': 'url(' + imgFondo1 + ')' }"></div>
+            <div class="page_animation__capa page_animation__capa_2 animated fadeInUp" style="animation-duration: 2s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo2 + ')' }" ></div>
             <div class="page_animation__capa page_animation__capa_3 animated fadeInUp" style="animation-duration: 3s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo3 + ')' }" ></div>
-            <div class="page_animation__capa page_animation__capa_4 animated fadeInUp" style="animation-duration: 3s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo4 + ')' }" ></div>
-            <div class="page_animation__capa page_animation__capa_5 animated fadeInUp" style="animation-duration: 3s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo5 + ')' }" ></div>
+            <div class="page_animation__capa page_animation__capa_4 animated fadeInUp" style="animation-duration: 4s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo4 + ')' }" ></div>
+            <div class="page_animation__capa page_animation__capa_5 animated fadeInUp" style="animation-duration: 5s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo5 + ')' }" ></div>
           </div>
         </div>
         <div v-else>
