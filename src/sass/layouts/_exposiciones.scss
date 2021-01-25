@@ -336,7 +336,8 @@
                     left: 0;
                     top: 0;
                     .video_source {
-                        width: 100%;
+                        min-width: 100vw;
+                        min-height: 100vh;
                         background-size: cover;
                     }
                 }

@@ -8,7 +8,7 @@
     <full-page :options="options" id="fullpage" ref="fullpage" v-if="isLoaded">
       <div v-for="(data, index) in mainData" :key="'main'+index" class="section" >
         <div class="mainOverlay"></div>
-        <div v-if="data.seccionPrincipal" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
+        <div v-if="data.seccionPrincipal" v-bind:style="{'background-image': 'url(' +data.imagenFondo.url +')' }">
           <div class="exposicion_introduccion">
             <div class="exposicion_texto animated animated-slow fadeInUp" style="animation-duration:3s;animation-delay:2s;">
               <h1 class="exposicion_texto__titulo">{{ data.tituloSeccion }}</h1>
@@ -50,10 +50,10 @@
             <div class="seccion_secu_container">
               <div v-if="data.videoFondo !== undefined && data.videoFondo !== null">
                     <video class="seccion_secu_container__video" loop  data-autoplay data-keepplaying>
-                            <source v-bind:src="apiUrl + bgSecondary[index].url" type="video/mp4">
+                            <source v-bind:src="bgSecondary[index].url" type="video/mp4">
                    </video>
               </div>
-              <div class="seccion_secu_container__imagen" v-if="data.imagenFondo !== undefined && data.imagenFondo !== null" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
+              <div class="seccion_secu_container__imagen" v-if="data.imagenFondo !== undefined && data.imagenFondo !== null" v-bind:style="{'background-image': 'url(' +data.imagenFondo.url +')' }">
               </div>
             <div class="seccion_secu_container__texto">
               <h2
@@ -80,7 +80,7 @@
       <div class="titleBtn" >
         <h2>{{buttonTitle}}</h2>        
       </div> 
-      <div class="lateralTitleBg" v-bind:style="{'background-image': 'url(' +apiUrl+buttonTitleBg +')' }"></div>
+      <div class="lateralTitleBg" v-bind:style="{'background-image': 'url(' +buttonTitleBg +')' }"></div>
     <full-page :options="options" id="fpInterna" ref="fpInterna" v-if="iIsloaded">
       <div v-for="(data, index) of lateralData" :key="'lateral'+index" class="section" >        
         <div class="seccion_lateral interna">
@@ -97,7 +97,7 @@
                   playsinline
                 >
                   <source
-                    v-bind:src="apiUrl + data.videoRecurso.url"
+                    v-bind:src="data.videoRecurso.url"
                     type="video/mp4"
                   />
                 </video>
@@ -118,10 +118,10 @@
               </div>
               <div v-if="data.videofondo !== undefined && data.videofondo !== null" class="seccion_lateral_container__video">
                     <video class="video_source" loop  data-autoplay data-keepplaying>
-                            <source v-bind:src="apiUrl + data.videofondo.url" type="video/mp4">
+                            <source v-bind:src="data.videofondo.url" type="video/mp4">
                    </video>
               </div>
-              <div class="seccion_lateral_container__imagen" v-if="data.imagenFondo !== undefined && data.imagenFondo !== null" v-bind:style="{'background-image': 'url(' +apiUrl+data.imagenFondo.url +')' }">
+              <div class="seccion_lateral_container__imagen" v-if="data.imagenFondo !== undefined && data.imagenFondo !== null" v-bind:style="{'background-image': 'url(' +data.imagenFondo.url +')' }">
               </div>
             <div class="seccion_lateral_container__texto video__texto" v-if="data.videoRecurso !== undefined && data.videoRecurso !== null ">
                 {{data.descripcion}}
