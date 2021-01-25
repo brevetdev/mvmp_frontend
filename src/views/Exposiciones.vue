@@ -37,10 +37,12 @@
             </a>
           </div>
           <div class="page_animation">
-            <div class="page_animation__capa page_animation__capa_1 animated fadeIn" style="animation-duration: 3s; animation-delay: 0.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo + ')' }"></div>
-            <div class="page_animation__capa page_animation__capa_2 animated fadeIn" style="animation-duration: 3s; animation-delay: 1s" v-bind:style="{ 'background-image': 'url(' + imgFondo1 + ')' }"></div>
-            <div class="page_animation__capa page_animation__capa_3 animated fadeIn" style="animation-duration: 3s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo2 + ')' }" ></div>
-            <div class="page_animation__capa page_animation__capa_4" style="animation-duration: 3s; animation-delay: 2s"  v-bind:style="{ 'background-image': 'url(' + imgFondo3 + ')' }"></div>
+            <div class="page_animation__capa page_animation__capa_0 animated fadeIn" style="animation-duration: 3s; animation-delay: 0.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo + ')' }"></div>
+            <div class="page_animation__capa page_animation__capa_1 animated fadeInUp" style="animation-duration: 3s; animation-delay: 1s" v-bind:style="{ 'background-image': 'url(' + imgFondo1 + ')' }"></div>
+            <div class="page_animation__capa page_animation__capa_2 animated fadeInUp" style="animation-duration: 3s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo2 + ')' }" ></div>
+            <div class="page_animation__capa page_animation__capa_3 animated fadeInUp" style="animation-duration: 3s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo3 + ')' }" ></div>
+            <div class="page_animation__capa page_animation__capa_4 animated fadeInUp" style="animation-duration: 3s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo4 + ')' }" ></div>
+            <div class="page_animation__capa page_animation__capa_5 animated fadeInUp" style="animation-duration: 3s; animation-delay: 1.5s" v-bind:style="{ 'background-image': 'url(' + imgFondo5 + ')' }" ></div>
           </div>
         </div>
         <div v-else>
@@ -165,6 +167,8 @@ export default {
       imgFondo1: "",
       imgFondo2: "",
       imgFondo3: "",
+      imgFondo4: "",
+      imgFondo5: "",
       buttonTitle: "",
       buttonTitleBg: "",
       bgSecondary: [],
@@ -208,13 +212,14 @@ export default {
             
             //SECCIONES
             for (let j = 0; j < response.data.paginasExposiciones[i].agregarSeccion.length; j++) {
-             // console.log(response.data.paginasExposiciones[i]);
+             console.log(response.data.paginasExposiciones[i]);
             //VALIDAR SECCION PRINCIPAL
               if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal) {
                 this.imgFondo =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url == undefined  || response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url == null ?  'empty':  this.imgFondo = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_1.url;
                 this.imgFondo1 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url == undefined || response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url == null  ?  'empty':  this.imgFondo1 = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_2.url;
                 this.imgFondo2 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url == undefined || response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url == null ?  'empty':  this.imgFondo2 = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_3.url;
-                this.imgFondo3 = response.data.paginasExposiciones[i].agregarSeccion[j]['imagenesRecurso_4'] == undefined  ||  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url == null ?  'empty':  this.imgFondo3 =  '' /* this.apiUrl + response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url */;
+                this.imgFondo3 =  response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url == undefined || response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url == null ?  'empty':  this.imgFondo3 = response.data.paginasExposiciones[i].agregarSeccion[j].imagenesRecurso_4.url;
+               
               }
                 //VALIDAR SECCIONES SECUNDARIAS
               if (response.data.paginasExposiciones[i].agregarSeccion[j].seccionPrincipal == undefined) {
