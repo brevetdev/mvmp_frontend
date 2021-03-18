@@ -3,9 +3,11 @@
 <!--<div class="bckgr" v-bind:style="{ 'background-image': 'url('+imgFondo+')' }">-->
   <!--<div v-html="msg"></div>-->
   <div id="overlay">
-  <div v-for='(data, index) in dataTitulo' :key="index">
-     <p  v-bind:class="data.classTitulo"> {{data.titulo}}</p>
-  </div>
+    <div id="goto" v-on:click="verMapa()">enlace</div>
+    <div v-for='(data, index) in dataTitulo' :key="index">
+      <p  v-bind:class="data.classTitulo"> {{data.titulo}}</p>
+    </div>
+    
   </div>
   <div class="logo">
     <div class="logo__content">
@@ -38,6 +40,9 @@ export default {
     //var converter = new showdown.Converter();
     //this.msg = converter.makeHtml(this.msg);
     //},
+    verMapa(){
+      window.location.href = '/#/mapa/Exposición';
+    },
     traerInfo(){
         let urlInicio =this.apiUrl+"/inicio";
         let homeVue = this;
@@ -46,7 +51,7 @@ export default {
           homeVue.dataTitulo = response.data.contenidoInicio;
           homeVue.imgFondo = this.apiUrl+response.data.imagenFondo.url;
           homeVue.logo = response.data.logo.url;
-          console.log(homeVue.logo);
+          //console.log(response.data.enlace);
       });
     }
   }
@@ -90,7 +95,7 @@ ul {
     position: absolute;
     width: 100vw;
     padding-top: 3em;
-    top: 0;
+    top: 10vh;
     bottom: 0;
     /*background-color: rgba(43, 42, 42, 0.568);*/
     text-align: center;
@@ -108,6 +113,13 @@ ul {
     @include breakpoint(desktopxl) {
 
     }
+}
+#goto{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 1;
+  font-size: 0;
 }
 .mayusculas{
     mix-blend-mode: color-dodge;

@@ -92,17 +92,32 @@
                     }
                 }
                 /deep/ p {
-                    margin-top: 0;
                     margin-bottom: 1rem;
                     font-family: 'Ibarra Real Nova';
                     font-size: 16px;
                     letter-spacing: 1px;
-                    margin: 0;
+                    margin: 20px 0;
                     color: #d1d1d1;
                     @include breakpoint(tablet){
                         text-align: left;
                         font-size: 1em;
                         line-height: 2em;
+                    }
+                }
+                /deep/ strong {
+                    font-family: 'Libre Franklin', sans-serif;
+                    text-transform: uppercase;
+                    font-size: 11px;
+                    color: #ffffff;
+                    font-weight: 600;
+                    letter-spacing: 1px;
+                }
+                /deep/ ul {
+                    color: #d1d1d1;
+                    padding-inline-start: 0;
+                    li {
+                        list-style: none;
+                        line-height: 1.4em;
                     }
                 }
             }

@@ -8,8 +8,11 @@
         :key="index"
       >
         <h2 class="subtitulosld">{{category.tituloSeccion}}</h2>
+          <a :href="category.linkExposicion" >
+            <img v-bind:src="(category.seccionImagen)?(category.seccionImagen[0].url):'/'" class="img-fluid" />
+          </a>
         <p class="subtitulosld">{{category.descripcionSeccion}}</p>
-        <img v-bind:src="(category.seccionImagen)?(category.seccionImagen[0].url):'/'" class="img-fluid" />
+        
       </section>
       <section id="relleno">
         <img src="../assets/img/exposicion-mapa.jpg" class="img-fluid"/>
@@ -19,7 +22,7 @@
     <div id="map"></div>
   </div>
 </template>
-<script src="./scripts/mapbox-gl.js"></script>
+<!-- <script src="./scripts/mapbox-gl.js"></script> -->
 <script>
 import axios from "axios";
 
@@ -40,10 +43,12 @@ export default {
   },
  mounted() {
    
+   /*
     const plugin = document.createElement("script");
     plugin.setAttribute("src", "./scripts/mapbox-gl.js");
     plugin.async = true;
     document.head.appendChild(plugin);
+    */
 
     let vueMapa = this;
     let estylo;
