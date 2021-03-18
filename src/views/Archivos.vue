@@ -28,7 +28,7 @@
       >
         <img
           class="carrusel_item__imagen"
-          v-bind:src="apiUrl + data.imagen.url"
+          v-bind:src="data.imagen.url"
           alt="IMAGEN URL"
         />
         <div class="carrusel_item__texto">
@@ -90,14 +90,14 @@
               :key="index" 
             >
              <div class="mansory-item__imagen" v-if="item.tipo==='Imagen'" @click.prevent="showFiles(item)">
-              <img v-bind:src="apiUrl + item.imagen.url" alt="" v-bind:height="item.imagen.height" v-bind:width="item.imagen.width" />
+              <img v-bind:src="item.imagen.url" alt="" v-bind:height="item.imagen.height" v-bind:width="item.imagen.width" />
               <p class="mansory-item__imagen__cita">{{ item.pieImagen }}</p>
              </div>
             <div class="mansory-item__audio" v-if="item.tipo === 'Audio'" @click.prevent="showFiles(item)">
                <vue-plyr ref="miaudio" class="audio_container__reproductor">
                 <audio controls crossorigin playsinline>
                   <source
-                    v-bind:src="apiUrl + item.audio.url"
+                    v-bind:src="item.audio.url"
                     type="audio/mp3"
                   />
                 </audio>
@@ -108,7 +108,7 @@
                <vue-plyr clickToPlay="true" :enabled="false" ref="mivideo" class="video_container__reproductor">
                 <video  crossorigin playsinline>
                   <source
-                    v-bind:src="apiUrl + item.video[0].url"
+                    v-bind:src="item.video[0].url"
                     type="video/mp4"
                   />
                 </video>
@@ -128,7 +128,7 @@
         </div>
         <div class="container__interna">
               <div class="interna-item__imagen" >
-               <img v-bind:src="apiUrl + InternaFiles.imagen.url" alt="" v-bind:height="InternaFiles.imagen.height" v-bind:width="InternaFiles.imagen.width" />
+               <img v-bind:src="nternaFiles.imagen.url" alt="" v-bind:height="InternaFiles.imagen.height" v-bind:width="InternaFiles.imagen.width" />
                 <p class="interna-item__imagen__cita">{{ InternaFiles.pieImagen }}</p> 
              </div>
         </div>
