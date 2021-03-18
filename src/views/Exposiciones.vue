@@ -63,11 +63,20 @@
                 {{ data.descripcion }}
               </h2>
             </div>
-            <div class="seccion_secu_container__btn">
+            <div v-if="data.textoBoton === 'final'" class="btn_exposicion--center">
+              <a href="/#/mapa/Exposición">
+                  <span>Ver más historias</span>
+                  <svg aria-hidden="false" focusable="false" data-prefix="fas" data-icon="chevron-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-chevron-down fa-w-14 fa-2x"><path fill="currentColor" d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z" class=""></path></svg>
+              </a>
+            </div>
+            <div v-else-if="data.textoBoton" class="seccion_secu_container__btn">
               <a class="btn_seccionsecu" @click.prevent="cambiarVista(data.id, index)">
                 <i class="zmdi zmdi-play-circle btn_seccionsecu__icono"></i>
                 {{ data.textoBoton }}
               </a>
+            </div>
+            <div v-else-if="data.textoBoton == ''" class="hide">
+              sin botón
             </div>
            </div>
           </div>
@@ -107,13 +116,13 @@
                 <div v-for="(audiod, indexa) in data.audios" :key="indexa">
                     <div v-html="parseoHtml(audiod.descripcionAudio) " class="html_render seccion_lateral_container__leyenda"></div>
                     <vue-plyr ref="miaudio" class="audio_container__reproductor">
-                    <audio controls crossorigin playsinline >
-                      <source
-                          v-bind:src = "apiUrl + audiod.audio.url"
+                      <audio controls crossorigin playsinline >
+                        <source
+                          v-bind:src="audiod.audio.url"
                           type="audio/mp3"
-                      />
-                    </audio>
-                  </vue-plyr>
+                        />
+                      </audio>
+                    </vue-plyr>
                   </div> 
               </div>
               <div v-if="data.videofondo !== undefined && data.videofondo !== null" class="seccion_lateral_container__video">
@@ -276,7 +285,7 @@ export default {
                 fullpage_api.destroy('#fullpage');
                 this.api = new fullpage('#fpInterna', this.options2);
                 this.$refs.miaudio.player;
-                 this.$refs.mivdeo.player;
+                this.$refs.mivdeo.player;
            } 
          }
       }
