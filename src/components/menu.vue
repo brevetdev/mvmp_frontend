@@ -1,6 +1,6 @@
 <template>
   <div id="menu">
-    <Slide width="350" class="menu">
+    <Slide width="350" class="menu" :closeOnNavigation="true">
       <!--HOME-->
       <router-link :to="`/home`" class="menu_link">
         <div class="menu_link__principal">{{ this.dataMenu.tituloPrincipal}}</div>

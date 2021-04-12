@@ -361,6 +361,7 @@
                     line-height: 38px;
                     letter-spacing: 0.3px;
                     font-family: sans-serif;
+                    top: 10vh;
                     @include breakpoint (phone){ 
                         font-size: 1em;
                         font-weight: 100;
