@@ -143,6 +143,7 @@
     .bm-item-list > * {
       display: flex;
       text-decoration: none;
+      min-width: 300px;
       }
     /deep/ .bm-item-list > * > span {
       
